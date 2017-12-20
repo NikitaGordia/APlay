@@ -8,20 +8,35 @@ import android.media.AudioManager;
 
 public class AudioTrack {
 
-    private String mName;
+    private String mName, mAlbum, mArtist;
+    private int mDuration;
 
-    private String mPath;
+    public AudioTrack(String name, String album, String artist, int duration) {
+        mName = removeMp3(name);
+        mAlbum = album;
+        mArtist = artist;
+        mDuration = duration;
+    }
 
-    public AudioTrack(String name, String path) {
-        mName = name;
-        mPath = path;
+    private String removeMp3(String str) {
+        if (str.endsWith(".mp3") || str.endsWith(".MP3"))
+            return str.substring(0, str.length() - 4);
+        return str;
     }
 
     public String getName() {
         return mName;
     }
 
-    public String getPath() {
-        return mPath;
+    public String getAlbum() {
+        return mAlbum;
+    }
+
+    public String getArtist() {
+        return mArtist;
+    }
+
+    public int getDuration() {
+        return mDuration;
     }
 }

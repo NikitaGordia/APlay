@@ -1,4 +1,4 @@
-package com.nikitagordia.aplay;
+package com.nikitagordia.aplay.Abstract;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -8,6 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import com.nikitagordia.aplay.Fragments.PlayerListFragment;
+import com.nikitagordia.aplay.R;
 
 import java.util.ArrayList;
 
@@ -24,6 +28,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setUpPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
+
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
@@ -34,21 +40,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     .commit();
         }
 
-        setUpPermissions(new String[]{});
     }
 
      private void setUpPermissions(String[] perm) {
-        if (perm.length == 0) return;
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-             ArrayList<String> needPerm = new ArrayList<>();
-             for (int i = 0; i < perm.length; i++)
-                 if (checkSelfPermission(perm[i]) != PackageManager.PERMISSION_GRANTED)
-                     needPerm.add(perm[i]);
-             String[] req = new String[needPerm.size()];
-             int pos = 0;
-             for (String str : needPerm)
-                 req[pos++] = str;
-             requestPermissions(req, 0);
-         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            for (int i = 0; i < perm.length; i++)
+                if (checkSelfPermission(perm[i]) != PackageManager.PERMISSION_GRANTED)
+                    requestPermissions(new String[]{ perm[i] }, 0);
+        }
      }
 }

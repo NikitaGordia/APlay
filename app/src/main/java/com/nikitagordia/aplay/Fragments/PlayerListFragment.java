@@ -1,6 +1,9 @@
 package com.nikitagordia.aplay.Fragments;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,11 +19,16 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.nikitagordia.aplay.Abstract.Callback;
 import com.nikitagordia.aplay.Managers.AudioAdapter;
+import com.nikitagordia.aplay.Managers.FilesManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
+import java.util.List;
+
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
  * Created by root on 20.12.17.
@@ -55,8 +63,35 @@ public class PlayerListFragment extends Fragment {
         mAudioAdapter = new AudioAdapter(getContext());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAudioAdapter);
-        mRecyclerView.setItemAnimator(new SlideInRightAnimator());
+        mRecyclerView.setItemAnimator(new SlideInUpAnimator());
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        fileLoading();
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "here");
+        fileLoading();
+    }
+
+    private void fileLoading() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) return;
+
+        mRefreshLayout.setRefreshing(true);
+        mAudioAdapter.reset();
+
+        mAudioAdapter.update(FilesManager.getAudioFiles(getContext()));
+        mRefreshLayout.setRefreshing(false);
     }
 }
