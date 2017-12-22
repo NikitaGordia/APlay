@@ -22,22 +22,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
+            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
                 android:id="@+id/rv_audio_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:fastScrollEnabled="true"
-                app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-                app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-                app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-                app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
-                android:scrollbarThumbVertical="@android:color/darker_gray"
-                android:scrollbarSize="10dp"/>
+                app:fastScrollPopupBgColor="@color/colorAccent"
+                app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+                app:fastScrollThumbColor="@color/colorAccent">
+            </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <android.support.v7.widget.CardView
-            app:cardCornerRadius="26dp"
+            app:cardCornerRadius="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
