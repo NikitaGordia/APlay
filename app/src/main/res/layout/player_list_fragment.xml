@@ -54,8 +54,7 @@
                     android:textAlignment="center"
                     android:textColor="?android:attr/colorForeground"
                     android:textSize="20sp"
-                    android:layout_margin="10dp"
-                    android:text="Ed Sheeran - She" />
+                    android:layout_margin="10dp"/>
 
                 <LinearLayout
                     android:gravity="center"
@@ -65,7 +64,7 @@
 
                     <TextView
                         android:id="@+id/tv_current_time"
-                        android:text="00:02"
+                        android:text="--:--"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -93,17 +92,18 @@
 
                     <TextView
                         android:id="@+id/tv_duration"
-                        android:text="04:42"
+                        android:text="--:--"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
                 <SeekBar
+                    android:id="@+id/sb_progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:progress="23" />
+                    android:progress="0" />
 
             </LinearLayout>
 

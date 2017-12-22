@@ -30,7 +30,8 @@ public class FilesManager {
                             cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)),
                             cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)),
                             cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)),
-                            cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))));
+                            cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)),
+                            cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))));
                 } while (cursor.moveToNext());
             }
             cursor.close();

@@ -2,9 +2,7 @@ package com.nikitagordia.aplay;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
-import com.nikitagordia.aplay.Abstract.PermissonsResultCallback;
 import com.nikitagordia.aplay.Abstract.SingleFragmentActivity;
 import com.nikitagordia.aplay.Fragments.PlayerListFragment;
 

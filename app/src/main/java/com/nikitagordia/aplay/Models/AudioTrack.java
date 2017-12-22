@@ -8,14 +8,15 @@ import android.media.AudioManager;
 
 public class AudioTrack {
 
-    private String mName, mAlbum, mArtist;
+    private String mName, mAlbum, mArtist, mUrl;
     private int mDuration;
 
-    public AudioTrack(String name, String album, String artist, int duration) {
+    public AudioTrack(String name, String album, String artist, int duration, String url) {
         mName = removeMp3(name);
         mAlbum = album;
         mArtist = artist;
         mDuration = duration;
+        mUrl = url;
     }
 
     private String removeMp3(String str) {
@@ -38,5 +39,9 @@ public class AudioTrack {
 
     public int getDuration() {
         return mDuration;
+    }
+
+    public String getUrl() {
+        return mUrl;
     }
 }

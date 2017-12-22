@@ -20,8 +20,11 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Managers.AudioAdapter;
 import com.nikitagordia.aplay.Managers.FilesManager;
+import com.nikitagordia.aplay.Managers.UtilsManager;
+import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
@@ -30,7 +33,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
  * Created by root on 20.12.17.
  */
 
-public class PlayerListFragment extends Fragment {
+public class PlayerListFragment extends Fragment implements OnClickItem {
 
     private TextView mTrackName, mTime, mDuration;
     private ImageButton mNext, mPlay, mPrev;
@@ -51,15 +54,36 @@ public class PlayerListFragment extends Fragment {
         mNext = (ImageButton) view.findViewById(R.id.ib_next);
         mPlay = (ImageButton) view.findViewById(R.id.ib_play);
         mPrev = (ImageButton) view.findViewById(R.id.ib_prev);
+        mPosition = (SeekBar) view.findViewById(R.id.sb_progress);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_audio_list);
 
-        mAudioAdapter = new AudioAdapter(getContext());
+        mAudioAdapter = new AudioAdapter(getContext(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAudioAdapter);
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
 
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fileLoading();
+                mRefreshLayout.setRefreshing(false);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onClick(AudioTrack audioTrack) {
+        loadSong(audioTrack);
+    }
+
+    private void loadSong(AudioTrack audioTrack) {
+        if (audioTrack == null) return;
+        mTrackName.setText(audioTrack.getName());
+        mDuration.setText(UtilsManager.getTimeFormat(audioTrack.getDuration()));
+        mPosition.setProgress(0);
     }
 
     @Override
@@ -85,11 +109,12 @@ public class PlayerListFragment extends Fragment {
 
         mAudioAdapter.update(FilesManager.getAudioFiles(getContext()));
         mRefreshLayout.setRefreshing(false);
+
+        loadSong(mAudioAdapter.getRandomSong());
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("mytg", requestCode + "!!");
     }
 }

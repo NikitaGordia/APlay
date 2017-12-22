@@ -6,9 +6,13 @@ package com.nikitagordia.aplay.Managers;
 
 public class UtilsManager {
 
-    public static String cutString(String str) {
-        if (str.length() > 30) return str.substring(0, 28) + "...";
+    public static String cutString(String str, int cnt) {
+        if (str.length() > cnt) return str.substring(0, cnt - 3) + "...";
         return str;
+    }
+
+    public static String cutString(String str) {
+        return cutString(str, 30);
     }
 
     public static String getTimeFormat(int tm) {
