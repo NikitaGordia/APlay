@@ -1,9 +1,11 @@
 package com.nikitagordia.aplay.Abstract;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -49,4 +51,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     requestPermissions(new String[]{ perm[i] }, 0);
         }
      }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("mytg", requestCode + "!");
+    }
 }

@@ -25,4 +25,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.0.2'
     implementation 'jp.wasabeef:recyclerview-animators:2.2.3'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:27.0.2'
 }

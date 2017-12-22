@@ -1,20 +1,14 @@
 package com.nikitagordia.aplay.Managers;
 
-import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.provider.MediaStore;
 
-import com.nikitagordia.aplay.Abstract.Callback;
 import com.nikitagordia.aplay.Models.AudioTrack;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 

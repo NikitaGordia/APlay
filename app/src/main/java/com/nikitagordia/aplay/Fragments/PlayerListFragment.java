@@ -2,6 +2,7 @@ package com.nikitagordia.aplay.Fragments;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,15 +20,10 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.nikitagordia.aplay.Abstract.Callback;
 import com.nikitagordia.aplay.Managers.AudioAdapter;
 import com.nikitagordia.aplay.Managers.FilesManager;
-import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
-import java.util.List;
-
-import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
@@ -35,8 +31,6 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
  */
 
 public class PlayerListFragment extends Fragment {
-
-    private final String TAG = getClass().getSimpleName();
 
     private TextView mTrackName, mTime, mDuration;
     private ImageButton mNext, mPlay, mPrev;
@@ -69,18 +63,16 @@ public class PlayerListFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         fileLoading();
     }
 
-
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(TAG, "here");
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         fileLoading();
     }
 
@@ -93,5 +85,11 @@ public class PlayerListFragment extends Fragment {
 
         mAudioAdapter.update(FilesManager.getAudioFiles(getContext()));
         mRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("mytg", requestCode + "!!");
     }
 }
