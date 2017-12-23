@@ -58,10 +58,11 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
     private Runnable mProgressUpdater = new Runnable() {
         @Override
         public void run() {
-            if (!mMediaPlayer.isPlaying()) return;
-            int tm = mMediaPlayer.getCurrentPosition();
-            mPosition.setProgress(tm);
-            mTime.setText(UtilsManager.getTimeFormat(tm));
+            if (mMediaPlayer.isPlaying()) {
+                int tm = mMediaPlayer.getCurrentPosition();
+                mPosition.setProgress(tm);
+                mTime.setText(UtilsManager.getTimeFormat(tm));
+            }
             mHandler.postDelayed(this, PROGRESS_UPDATE_DELAY);
         }
     };
@@ -107,6 +108,22 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
             }
         });
 
+        mNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AudioTrack audioTrack = mAudioAdapter.next();
+                if (audioTrack != null) loadSong(audioTrack, true);
+            }
+        });
+
+        mPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AudioTrack audioTrack = mAudioAdapter.prev();
+                if (audioTrack != null) loadSong(audioTrack, true);
+            }
+        });
+
         return view;
     }
 
@@ -117,7 +134,7 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
+        mTime.setText(UtilsManager.getTimeFormat(i));
     }
 
     @Override
@@ -212,7 +229,7 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         mAudioAdapter.update(FilesManager.getAudioFiles(getContext()));
         mRefreshLayout.setRefreshing(false);
 
-        if (!mMediaPlayer.isPlaying()) loadSong(mAudioAdapter.getRandomSong(), false);
+        if (!mMediaPlayer.isPlaying()) loadSong(mAudioAdapter.getForLoading(0), false);
     }
 
     @Override
