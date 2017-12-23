@@ -4,8 +4,10 @@ package com.nikitagordia.aplay.Fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Managers.AudioAdapter;
@@ -27,13 +30,19 @@ import com.nikitagordia.aplay.Managers.UtilsManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
+import java.io.IOException;
+
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
  * Created by root on 20.12.17.
  */
 
-public class PlayerListFragment extends Fragment implements OnClickItem {
+public class PlayerListFragment extends Fragment implements OnClickItem,
+                                                            MediaPlayer.OnCompletionListener,
+                                                            SeekBar.OnSeekBarChangeListener {
+
+    private static final int PROGRESS_UPDATE_DELAY = 100;
 
     private TextView mTrackName, mTime, mDuration;
     private ImageButton mNext, mPlay, mPrev;
@@ -41,6 +50,21 @@ public class PlayerListFragment extends Fragment implements OnClickItem {
     private RecyclerView mRecyclerView;
     private AudioAdapter mAudioAdapter;
     private SwipeRefreshLayout mRefreshLayout;
+    private MediaPlayer mMediaPlayer;
+    private Handler mHandler = new Handler();
+
+    private boolean mSongWasLoaded;
+
+    private Runnable mProgressUpdater = new Runnable() {
+        @Override
+        public void run() {
+            if (!mMediaPlayer.isPlaying()) return;
+            int tm = mMediaPlayer.getCurrentPosition();
+            mPosition.setProgress(tm);
+            mTime.setText(UtilsManager.getTimeFormat(tm));
+            mHandler.postDelayed(this, PROGRESS_UPDATE_DELAY);
+        }
+    };
 
     @Nullable
     @Override
@@ -57,11 +81,15 @@ public class PlayerListFragment extends Fragment implements OnClickItem {
         mPosition = (SeekBar) view.findViewById(R.id.sb_progress);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_audio_list);
+        mMediaPlayer = new MediaPlayer();
 
         mAudioAdapter = new AudioAdapter(getContext(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAudioAdapter);
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
+
+        mPosition.setOnSeekBarChangeListener(this);
+        mMediaPlayer.setOnCompletionListener(this);
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -71,19 +99,93 @@ public class PlayerListFragment extends Fragment implements OnClickItem {
             }
         });
 
+        mPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mMediaPlayer.isPlaying()) stopPlaySong();
+                                        else startPlaySong();
+            }
+        });
+
         return view;
     }
 
     @Override
-    public void onClick(AudioTrack audioTrack) {
-        loadSong(audioTrack);
+    public void onCompletion(MediaPlayer mediaPlayer) {
+
     }
 
-    private void loadSong(AudioTrack audioTrack) {
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        mHandler.removeCallbacks(mProgressUpdater);
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        mHandler.removeCallbacks(mProgressUpdater);
+        mMediaPlayer.seekTo(mPosition.getProgress());
+        mHandler.postDelayed(mProgressUpdater, PROGRESS_UPDATE_DELAY);
+    }
+
+    @Override
+    public void onClick(AudioTrack audioTrack) {
+        loadSong(audioTrack, true);
+    }
+
+    private void loadSong(AudioTrack audioTrack, boolean startPlaying) {
         if (audioTrack == null) return;
+
+
+        resetUIBar();
+        mMediaPlayer.reset();
+        try {
+            mMediaPlayer.setDataSource(audioTrack.getUrl());
+
+            loadUIBar(audioTrack);
+
+            mSongWasLoaded = true;
+            if (startPlaying) {
+                mMediaPlayer.prepare();
+                startPlaySong();
+            } else mMediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "Failed(", Toast.LENGTH_SHORT).show();
+            mSongWasLoaded = false;
+            return;
+        }
+    }
+
+    private void stopPlaySong() {
+        if (!mSongWasLoaded) return;
+        mPlay.setImageResource(R.drawable.play);
+        mMediaPlayer.pause();
+    }
+
+    private void startPlaySong() {
+        if (!mSongWasLoaded) return;
+        mPlay.setImageResource(R.drawable.pause);
+        mMediaPlayer.start();
+        mHandler.postDelayed(mProgressUpdater, PROGRESS_UPDATE_DELAY);
+    }
+
+    private void loadUIBar(AudioTrack audioTrack) {
         mTrackName.setText(audioTrack.getName());
         mDuration.setText(UtilsManager.getTimeFormat(audioTrack.getDuration()));
+        mTime.setText("00:00");
+        mPosition.setMax(audioTrack.getDuration());
         mPosition.setProgress(0);
+    }
+
+    private void resetUIBar() {
+        mTrackName.setText("");
+        mDuration.setText("--:--");
+        mPosition.setProgress(0);
+        mTime.setText("--:--");
     }
 
     @Override
@@ -110,11 +212,12 @@ public class PlayerListFragment extends Fragment implements OnClickItem {
         mAudioAdapter.update(FilesManager.getAudioFiles(getContext()));
         mRefreshLayout.setRefreshing(false);
 
-        loadSong(mAudioAdapter.getRandomSong());
+        if (!mMediaPlayer.isPlaying()) loadSong(mAudioAdapter.getRandomSong(), false);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onDetach() {
+        super.onDetach();
+        mMediaPlayer.release();
     }
 }
