@@ -59,39 +59,57 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/tv_current_time"
-                        android:text="--:--"
+                    <android.support.v7.widget.CardView
+                        app:cardCornerRadius="30dp"
+                        android:background="@color/play_background"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content">
 
-                    <ImageButton
-                        android:id="@+id/ib_prev"
-                        android:background="@color/gray_less"
-                        android:src="@drawable/prev"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <ImageButton
-                        android:id="@+id/ib_play"
-                        android:background="@color/gray_less"
-                        android:src="@drawable/play"
-                        android:layout_margin="8dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/tv_current_time"
+                                android:text="--:--"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
-                    <ImageButton
-                        android:id="@+id/ib_next"
-                        android:background="@color/gray_less"
-                        android:src="@drawable/next"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                            <ImageButton
+                                android:id="@+id/ib_prev"
+                                android:background="@color/selected_background"
+                                android:src="@drawable/prev"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:id="@+id/tv_duration"
-                        android:text="--:--"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                            <ImageButton
+                                android:id="@+id/ib_play"
+                                android:background="@color/selected_background"
+                                android:src="@drawable/play"
+                                android:layout_margin="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <ImageButton
+                                android:id="@+id/ib_next"
+                                android:background="@color/selected_background"
+                                android:src="@drawable/next"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_duration"
+                                android:text="--:--"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
 
                 </LinearLayout>
 

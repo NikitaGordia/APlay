@@ -111,16 +111,14 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AudioTrack audioTrack = mAudioAdapter.next();
-                if (audioTrack != null) loadSong(audioTrack, true);
+                preLoadSong(mAudioAdapter.next());
             }
         });
 
         mPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AudioTrack audioTrack = mAudioAdapter.prev();
-                if (audioTrack != null) loadSong(audioTrack, true);
+                preLoadSong(mAudioAdapter.prev());
             }
         });
 
@@ -129,7 +127,7 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-
+        preLoadSong(mAudioAdapter.next());
     }
 
     @Override
@@ -217,6 +215,11 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         super.onActivityCreated(savedInstanceState);
 
         fileLoading();
+    }
+
+    private void preLoadSong(AudioTrack audioTrack) {
+        if (audioTrack != null) loadSong(audioTrack, true);
+        mRecyclerView.scrollToPosition(mAudioAdapter.getSelected());
     }
 
     private void fileLoading() {

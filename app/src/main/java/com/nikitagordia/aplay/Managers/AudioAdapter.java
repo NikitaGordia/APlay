@@ -53,15 +53,19 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     }
 
     public AudioTrack next() {
-        if (selected == mAudioTracks.size() - 1) return null;
-        updateAndSetSelected(selected + 1);
-        return getItem(selected);
+        if (mAudioTracks.isEmpty()) return null;
+        int pos = selected + 1;
+        if (selected == mAudioTracks.size() - 1) pos = 0;
+        updateAndSetSelected(pos);
+        return getItem(pos);
     }
 
     public AudioTrack prev() {
-        if (selected == 0) return  null;
-        updateAndSetSelected(selected - 1);
-        return getItem(selected);
+        if (mAudioTracks.isEmpty()) return null;
+        int pos = selected - 1;
+        if (selected == 0) pos = mAudioTracks.size() - 1;
+        updateAndSetSelected(pos);
+        return getItem(pos);
     }
 
     public void update(List<AudioTrack> list) {
@@ -70,9 +74,8 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     }
 
     private void updateAndSetSelected(int newSelect) {
-        if (selected != -1) notifyItemChanged(selected);
         selected = newSelect;
-        notifyItemChanged(selected);
+        notifyDataSetChanged();
     }
 
     private AudioTrack getItem(int pos) {
@@ -87,6 +90,10 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     @Override
     public void onBindViewHolder(AudioTrackHolder holder, int position) {
         holder.bind(getItem(position), position);
+    }
+
+    public int getSelected() {
+        return selected;
     }
 
     @Override
