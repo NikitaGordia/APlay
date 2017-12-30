@@ -31,6 +31,7 @@ import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
 import java.io.IOException;
+import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
@@ -229,7 +230,12 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         mRefreshLayout.setRefreshing(true);
         mAudioAdapter.reset();
 
-        mAudioAdapter.update(FilesManager.getAudioFiles(getContext()));
+        new FilesManager(this).execute();
+    }
+
+    public void onSongList(List<AudioTrack> audioTrackList) {
+        mAudioAdapter.update(audioTrackList);
+
         mRefreshLayout.setRefreshing(false);
 
         if (!mMediaPlayer.isPlaying()) loadSong(mAudioAdapter.getForLoading(0), false);

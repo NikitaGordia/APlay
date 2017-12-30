@@ -10,5 +10,5 @@
     <color name="transparent">#00000000</color>
     <color name="selected_background">#ffffff</color>
     <color name="text_color">#3c3f41</color>
-    <color name="play_background">#b3ff4987</color>
+    <color name="play_box">#969797</color>
 </resources>
