@@ -11,14 +11,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -29,6 +37,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Managers.AudioAdapter;
 import com.nikitagordia.aplay.Managers.FilesManager;
+import com.nikitagordia.aplay.Managers.PairKeepManager;
 import com.nikitagordia.aplay.Managers.SearchManager;
 import com.nikitagordia.aplay.Managers.UtilsManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
@@ -59,9 +68,15 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
     private MediaPlayer mMediaPlayer;
     private FloatingActionButton mSearchFab, mSettingsFab;
     private FloatingActionMenu mFloatingActionMenu;
+    private BottomSheetBehavior mBottomSheetBehavior;
+    private FrameLayout mFrameLayout;
+    private NestedScrollView mNestedScrollView;
+    private CardView mMusicBox;
     private Handler mHandler = new Handler();
 
     private boolean mSongWasLoaded;
+    private PairKeepManager pair1 = new PairKeepManager(),
+                            pair2 = new PairKeepManager();
 
     private Runnable mProgressUpdater = new Runnable() {
         @Override
@@ -87,11 +102,15 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         mNext = (ImageButton) view.findViewById(R.id.ib_next);
         mPlay = (ImageButton) view.findViewById(R.id.ib_play);
         mPrev = (ImageButton) view.findViewById(R.id.ib_prev);
+        mMusicBox = (CardView) view.findViewById(R.id.music_box);
         mPosition = (SeekBar) view.findViewById(R.id.sb_progress);
+        mFrameLayout = (FrameLayout) view.findViewById(R.id.frame_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_audio_list);
         mSearchFab = (FloatingActionButton) view.findViewById(R.id.fab_search);
         mSettingsFab = (FloatingActionButton) view.findViewById(R.id.fab_setting);
         mFloatingActionMenu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
+        mNestedScrollView = (NestedScrollView) view.findViewById(R.id.bottom_sheet);
+        final CardView playBox = (CardView) view.findViewById(R.id.play_box);
 
         mMediaPlayer = new MediaPlayer();
 
@@ -140,8 +159,52 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
             }
         });
 
+        View bottomSheet = view.findViewById( R.id.bottom_sheet );
+
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+        playBox.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                PairKeepManager p = new PairKeepManager();
+                p.set(playBox.getWidth(), playBox.getHeight());
+
+                if (p.equals(pair1)) return;
+
+                int border = playBox.getHeight() + 2 * UtilsManager.getPixelsFromDPs(getActivity(), 4);
+
+                mBottomSheetBehavior.setPeekHeight(border);
+
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mFrameLayout.getLayoutParams();
+                params.setMargins(0, 0, 0, border);
+                params.gravity = Gravity.TOP;
+                mFrameLayout.setLayoutParams(params);
+
+                pair1 = p;
+            }
+        });
+
+        mMusicBox.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                PairKeepManager p = new PairKeepManager();
+                p.set(mMusicBox.getWidth(), mMusicBox.getHeight());
+
+                if (p.equals(pair2)) return;
+
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mNestedScrollView.getLayoutParams();
+                params.height = mMusicBox.getHeight();
+                mNestedScrollView.setLayoutParams(params);
+
+                pair2 = p;
+            }
+        });
+
         return view;
     }
+
+
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
@@ -262,7 +325,6 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODE_ON_SEARCH_RESULT && resultCode == Activity.RESULT_OK) {
             String url = data.getStringExtra(SearchFragment.EXTRA_RESULT_URL_SONG);
-            Log.d("mytg", url);
             if (url == null) return;
             int pos = mAudioAdapter.getPosByUrl(url);
             if (pos == -1) return;

@@ -1,5 +1,9 @@
 package com.nikitagordia.aplay.Managers;
 
+import android.app.Activity;
+import android.content.res.Resources;
+import android.util.TypedValue;
+
 /**
  * Created by root on 20.12.17.
  */
@@ -23,5 +27,12 @@ public class UtilsManager {
         res += min + ":";
         if (sec < 10) res += "0";
         return res += sec;
+    }
+
+    public static int getPixelsFromDPs(Activity activity, int dps) {
+        Resources r = activity.getResources();
+        int  px = (int) (TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, dps, r.getDisplayMetrics()));
+        return px;
     }
 }

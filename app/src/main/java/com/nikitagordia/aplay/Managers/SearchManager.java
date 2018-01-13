@@ -28,9 +28,6 @@ public class SearchManager {
         for (int i = 0; i < mAudioTracks.size(); i++)
             if (valid(mAudioTracks.get(i), query))
                 result.add(mAudioTracks.get(i));
-        Log.d("mytg", "\n\n\n\n");
-        for (AudioTrack a : result)
-            Log.d("mytg", a.getName());
         return result;
     }
 
