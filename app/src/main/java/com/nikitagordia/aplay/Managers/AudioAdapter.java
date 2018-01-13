@@ -2,6 +2,7 @@ package com.nikitagordia.aplay.Managers;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,14 +105,14 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     public class AudioTrackHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTitle, mAlbum, mDuration;
-        private ConstraintLayout mConstraintLayout;
+        private CardView mCardViewContainer;
         private AudioTrack mAudioTrack;
         private int mPosition;
 
         public AudioTrackHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.audio_item, parent, false));
 
-            mConstraintLayout = (ConstraintLayout) itemView.findViewById(R.id.cl_item_background);
+            mCardViewContainer = (CardView) itemView.findViewById(R.id.card_view_container);
             mTitle = (TextView) itemView.findViewById(R.id.tv_title);
             mAlbum = (TextView) itemView.findViewById(R.id.tv_album);
             mDuration = (TextView) itemView.findViewById(R.id.tv_duration);
@@ -121,15 +122,15 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
         @Override
         public void onClick(View view) {
             updateAndSetSelected(mPosition);
-            mOnClickListener.onClick(mAudioTrack);
+            mOnClickListener.onClick(mPosition);
         }
 
         private void setSelected(boolean selected) {
             if (selected) {
-                mConstraintLayout.setBackgroundColor(itemView.getResources().getColor(R.color.selected_background));
+                mCardViewContainer.setCardBackgroundColor(itemView.getResources().getColor(R.color.selected_background));
                 mTitle.setTextColor(itemView.getResources().getColor(R.color.colorAccent));
             } else {
-                mConstraintLayout.setBackgroundColor(itemView.getResources().getColor(R.color.gray));
+                mCardViewContainer.setCardBackgroundColor(itemView.getResources().getColor(R.color.gray));
                 mTitle.setTextColor(itemView.getResources().getColor(R.color.text_color));
             }
         }

@@ -2,6 +2,7 @@ package com.nikitagordia.aplay.Fragments;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -23,12 +24,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Managers.AudioAdapter;
 import com.nikitagordia.aplay.Managers.FilesManager;
+import com.nikitagordia.aplay.Managers.SearchManager;
 import com.nikitagordia.aplay.Managers.UtilsManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
+import com.nikitagordia.aplay.SearchActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,6 +48,7 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
                                                             MediaPlayer.OnCompletionListener,
                                                             SeekBar.OnSeekBarChangeListener {
 
+    public static final int CODE_ON_SEARCH_RESULT = 0;
     private static final int PROGRESS_UPDATE_DELAY = 100;
 
     private TextView mTrackName, mTime, mDuration;
@@ -52,6 +58,8 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
     private AudioAdapter mAudioAdapter;
     private SwipeRefreshLayout mRefreshLayout;
     private MediaPlayer mMediaPlayer;
+    private FloatingActionButton mSearchFab, mSettingsFab;
+    private FloatingActionMenu mFloatingActionMenu;
     private Handler mHandler = new Handler();
 
     private boolean mSongWasLoaded;
@@ -83,12 +91,31 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         mPosition = (SeekBar) view.findViewById(R.id.sb_progress);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_audio_list);
+        mSearchFab = (FloatingActionButton) view.findViewById(R.id.fab_search);
+        mSettingsFab = (FloatingActionButton) view.findViewById(R.id.fab_setting);
+        mFloatingActionMenu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
+
         mMediaPlayer = new MediaPlayer();
 
         mAudioAdapter = new AudioAdapter(getContext(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAudioAdapter);
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
+
+        mSearchFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFloatingActionMenu.close(true);
+                startActivityForResult(new Intent(getContext(), SearchActivity.class), CODE_ON_SEARCH_RESULT);
+            }
+        });
+
+        mSettingsFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
 
         mPosition.setOnSeekBarChangeListener(this);
         mMediaPlayer.setOnCompletionListener(this);
@@ -149,8 +176,8 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
     }
 
     @Override
-    public void onClick(AudioTrack audioTrack) {
-        loadSong(audioTrack, true);
+    public void onClick(int pos) {
+        loadSong(mAudioAdapter.getForLoading(pos), true);
     }
 
     private void loadSong(AudioTrack audioTrack, boolean startPlaying) {
@@ -202,6 +229,7 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         mDuration.setText("--:--");
         mPosition.setProgress(0);
         mTime.setText("--:--");
+        stopPlaySong();
     }
 
     @Override
@@ -235,10 +263,22 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
 
     public void onSongList(List<AudioTrack> audioTrackList) {
         mAudioAdapter.update(audioTrackList);
+        SearchManager.get().setList(audioTrackList);
 
         mRefreshLayout.setRefreshing(false);
 
         if (!mMediaPlayer.isPlaying()) loadSong(mAudioAdapter.getForLoading(0), false);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODE_ON_SEARCH_RESULT && resultCode == Activity.RESULT_OK) {
+            int pos = data.getIntExtra(SearchFragment.EXTRA_RESULT_ID_SONG, -1);
+            if (pos == -1) return;
+            mRecyclerView.scrollToPosition(pos);
+            loadSong(mAudioAdapter.getForLoading(pos), false);
+        }
     }
 
     @Override

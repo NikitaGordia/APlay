@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
+            android:theme="@style/AppThemeNoBar"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -21,6 +22,8 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".SearchActivity"/>
     </application>
 
 </manifest>

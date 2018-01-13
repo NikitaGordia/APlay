@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/gray_more"
     android:layout_width="match_parent"
@@ -22,24 +24,62 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-                android:id="@+id/rv_audio_list"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:fastScrollPopupBgColor="@color/colorAccent"
-                app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-                app:fastScrollThumbColor="@color/colorAccent">
-            </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
+                android:layout_height="match_parent">
+
+                <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                    android:id="@+id/rv_audio_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:fastScrollPopupBgColor="@color/colorAccent"
+                    app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+                    app:fastScrollThumbColor="@color/colorAccent">
+                </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
+
+                <com.github.clans.fab.FloatingActionMenu
+                    android:id="@+id/fab_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="3dp"
+                    app:menu_colorNormal="@color/gray_less"
+                    app:menu_colorPressed="@color/gray_more"
+                    android:layout_marginRight="8dp">
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/fab_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_jab_settings"
+                        app:fab_colorNormal="@color/gray_less"
+                        app:fab_colorPressed="@color/gray_more"
+                        app:fab_size="mini"
+                        app:fab_label="@string/settings" />
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/fab_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_fub_search"
+                        app:fab_colorNormal="@color/gray_less"
+                        app:fab_colorPressed="@color/gray_more"
+                        app:fab_size="mini"
+                        app:fab_label="@string/search" />
+
+                </com.github.clans.fab.FloatingActionMenu>
+
+            </FrameLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <android.support.v7.widget.CardView
+            card_view:cardBackgroundColor="@color/gray_less"
             app:cardCornerRadius="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:background="@color/gray_less"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -60,13 +100,14 @@
                     android:layout_height="wrap_content">
 
                     <android.support.v7.widget.CardView
+                        android:background="@color/play_box"
+                        card_view:cardBackgroundColor="@color/play_box"
                         android:layout_margin="4dp"
                         app:cardCornerRadius="30dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:background="@color/play_box"
                             android:gravity="center"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
@@ -82,13 +123,13 @@
                             <ImageButton
                                 android:id="@+id/ib_prev"
                                 android:src="@drawable/prev"
-                                android:background="@color/play_box"
+                                android:background="?attr/selectableItemBackgroundBorderless"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
                             <ImageButton
                                 android:id="@+id/ib_play"
-                                android:background="@color/play_box"
+                                android:background="?attr/selectableItemBackgroundBorderless"
                                 android:src="@drawable/play"
                                 android:layout_margin="8dp"
                                 android:layout_width="wrap_content"
@@ -96,7 +137,7 @@
 
                             <ImageButton
                                 android:id="@+id/ib_next"
-                                android:background="@color/play_box"
+                                android:background="?attr/selectableItemBackgroundBorderless"
                                 android:src="@drawable/next"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -118,6 +159,7 @@
                     android:id="@+id/sb_progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:layout_margin="5dp"
                     android:progress="0" />
 
