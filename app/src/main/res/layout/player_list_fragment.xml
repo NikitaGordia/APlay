@@ -18,60 +18,53 @@
         android:layout_height="match_parent">
 
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
+        <FrameLayout
             android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
+            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                android:id="@+id/rv_audio_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:fastScrollPopupBgColor="@color/colorAccent"
+                app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+                app:fastScrollThumbColor="@color/colorAccent">
+            </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
 
-                <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-                    android:id="@+id/rv_audio_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:fastScrollPopupBgColor="@color/colorAccent"
-                    app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-                    app:fastScrollThumbColor="@color/colorAccent">
-                </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
+            <com.github.clans.fab.FloatingActionMenu
+                android:id="@+id/fab_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="3dp"
+                app:menu_colorNormal="@color/gray_less"
+                app:menu_colorPressed="@color/gray_more"
+                android:layout_marginRight="8dp">
 
-                <com.github.clans.fab.FloatingActionMenu
-                    android:id="@+id/fab_menu"
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fab_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginBottom="3dp"
-                    app:menu_colorNormal="@color/gray_less"
-                    app:menu_colorPressed="@color/gray_more"
-                    android:layout_marginRight="8dp">
+                    android:src="@drawable/ic_jab_settings"
+                    app:fab_colorNormal="@color/gray_less"
+                    app:fab_colorPressed="@color/gray_more"
+                    app:fab_size="mini"
+                    app:fab_label="@string/settings" />
 
-                    <com.github.clans.fab.FloatingActionButton
-                        android:id="@+id/fab_setting"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_jab_settings"
-                        app:fab_colorNormal="@color/gray_less"
-                        app:fab_colorPressed="@color/gray_more"
-                        app:fab_size="mini"
-                        app:fab_label="@string/settings" />
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fab_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_fub_search"
+                    app:fab_colorNormal="@color/gray_less"
+                    app:fab_colorPressed="@color/gray_more"
+                    app:fab_size="mini"
+                    app:fab_label="@string/search" />
 
-                    <com.github.clans.fab.FloatingActionButton
-                        android:id="@+id/fab_search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_fub_search"
-                        app:fab_colorNormal="@color/gray_less"
-                        app:fab_colorPressed="@color/gray_more"
-                        app:fab_size="mini"
-                        app:fab_label="@string/search" />
+            </com.github.clans.fab.FloatingActionMenu>
 
-                </com.github.clans.fab.FloatingActionMenu>
-
-            </FrameLayout>
-
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </FrameLayout>
 
         <android.support.v7.widget.CardView
             card_view:cardBackgroundColor="@color/gray_less"

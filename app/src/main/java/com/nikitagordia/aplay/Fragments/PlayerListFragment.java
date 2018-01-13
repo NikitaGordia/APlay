@@ -56,7 +56,6 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
     private SeekBar mPosition;
     private RecyclerView mRecyclerView;
     private AudioAdapter mAudioAdapter;
-    private SwipeRefreshLayout mRefreshLayout;
     private MediaPlayer mMediaPlayer;
     private FloatingActionButton mSearchFab, mSettingsFab;
     private FloatingActionMenu mFloatingActionMenu;
@@ -89,7 +88,6 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         mPlay = (ImageButton) view.findViewById(R.id.ib_play);
         mPrev = (ImageButton) view.findViewById(R.id.ib_prev);
         mPosition = (SeekBar) view.findViewById(R.id.sb_progress);
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_audio_list);
         mSearchFab = (FloatingActionButton) view.findViewById(R.id.fab_search);
         mSettingsFab = (FloatingActionButton) view.findViewById(R.id.fab_setting);
@@ -119,14 +117,6 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
 
         mPosition.setOnSeekBarChangeListener(this);
         mMediaPlayer.setOnCompletionListener(this);
-
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fileLoading();
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
 
         mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,7 +245,6 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) return;
 
-        mRefreshLayout.setRefreshing(true);
         mAudioAdapter.reset();
 
         new FilesManager(this).execute();
@@ -265,8 +254,6 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
         mAudioAdapter.update(audioTrackList);
         SearchManager.get().setList(audioTrackList);
 
-        mRefreshLayout.setRefreshing(false);
-
         if (!mMediaPlayer.isPlaying()) loadSong(mAudioAdapter.getForLoading(0), false);
     }
 
@@ -274,7 +261,10 @@ public class PlayerListFragment extends Fragment implements OnClickItem,
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODE_ON_SEARCH_RESULT && resultCode == Activity.RESULT_OK) {
-            int pos = data.getIntExtra(SearchFragment.EXTRA_RESULT_ID_SONG, -1);
+            String url = data.getStringExtra(SearchFragment.EXTRA_RESULT_URL_SONG);
+            Log.d("mytg", url);
+            if (url == null) return;
+            int pos = mAudioAdapter.getPosByUrl(url);
             if (pos == -1) return;
             mRecyclerView.scrollToPosition(pos);
             loadSong(mAudioAdapter.getForLoading(pos), false);

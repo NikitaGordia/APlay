@@ -1,6 +1,7 @@
 package com.nikitagordia.aplay;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.nikitagordia.aplay.Abstract.SingleFragmentActivity;
 import com.nikitagordia.aplay.Fragments.SearchFragment;

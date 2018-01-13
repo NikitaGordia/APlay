@@ -79,7 +79,14 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
         notifyDataSetChanged();
     }
 
-    private AudioTrack getItem(int pos) {
+    public int getPosByUrl(String url) {
+        for (int i = 0; i < mAudioTracks.size(); i++)
+            if (mAudioTracks.get(i).getUrl().equals(url))
+                return mAudioTracks.size() - i - 1;
+        return -1;
+    }
+
+    public AudioTrack getItem(int pos) {
         return mAudioTracks.get(mAudioTracks.size() - pos - 1);
     }
 
@@ -100,6 +107,14 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     @Override
     public int getItemCount() {
         return mAudioTracks.size();
+    }
+
+    public List<AudioTrack> getAudioTracks() {
+        return mAudioTracks;
+    }
+
+    public void setAudioTracks(List<AudioTrack> audioTracks) {
+        mAudioTracks = audioTracks;
     }
 
     public class AudioTrackHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

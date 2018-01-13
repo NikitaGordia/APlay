@@ -1,10 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-    android:id="@+id/search_rv_audio_list"
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:fastScrollPopupBgColor="@color/colorAccent"
-    app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-    app:fastScrollThumbColor="@color/colorAccent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"/>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+        android:id="@+id/search_rv_audio_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:fastScrollPopupBgColor="@color/colorAccent"
+        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+        app:fastScrollThumbColor="@color/colorAccent"/>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"
+        android:layout_gravity="left|bottom"
+        app:fab_colorNormal="@color/gray_less"
+        app:fab_colorPressed="@color/gray_more"
+        app:fab_label="@string/back" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_sort_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        app:menu_icon="@drawable/ic_sort"
+        app:menu_colorNormal="@color/gray_less"
+        app:menu_colorPressed="@color/gray_more">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_sort_by_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sort_by_name"
+            app:fab_colorNormal="@color/gray_less"
+            app:fab_colorPressed="@color/gray_more"
+            app:fab_size="mini"
+            app:fab_label="@string/sort_by_name" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_sort_by_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sort_by_artist"
+            app:fab_colorNormal="@color/gray_less"
+            app:fab_colorPressed="@color/gray_more"
+            app:fab_size="mini"
+            app:fab_label="@string/sort_by_artist" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_sort_by_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sort_by_album"
+            app:fab_colorNormal="@color/gray_less"
+            app:fab_colorPressed="@color/gray_more"
+            app:fab_size="mini"
+            app:fab_label="@string/sort_by_album" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_sort_by_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sort_by_duration"
+            app:fab_colorNormal="@color/gray_less"
+            app:fab_colorPressed="@color/gray_more"
+            app:fab_size="mini"
+            app:fab_label="@string/sort_by_duraition" />
+
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</FrameLayout>

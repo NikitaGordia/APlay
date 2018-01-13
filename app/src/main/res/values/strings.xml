@@ -2,4 +2,9 @@
     <string name="app_name">APlay</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
+    <string name="back">Back</string>
+    <string name="sort_by_duraition">Duration</string>
+    <string name="sort_by_artist">Artist</string>
+    <string name="sort_by_name">Title</string>
+    <string name="sort_by_album">Album</string>
 </resources>
