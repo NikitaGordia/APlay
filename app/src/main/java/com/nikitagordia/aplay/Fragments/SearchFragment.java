@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -39,10 +40,13 @@ public class SearchFragment extends Fragment {
 
     public static final String EXTRA_RESULT_URL_SONG = "resultUrlSong";
 
+    private TextView mSearchCount;
     private RecyclerView mRecyclerView;
     private AudioAdapter mAudioAdapter;
     private FloatingActionButton mFloatingBack, mFabSortName, mFabSortArtist, mFabSortDuration, mFabSortAlbum;
     private FloatingActionMenu mFloatingActionMenu;
+
+    private int mAllCount;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class SearchFragment extends Fragment {
         mFabSortArtist = (FloatingActionButton) view.findViewById(R.id.fab_sort_by_artist);
         mFabSortDuration = (FloatingActionButton) view.findViewById(R.id.fab_sort_by_duration);
         mFabSortAlbum = (FloatingActionButton) view.findViewById(R.id.fab_sort_by_album);
+        mSearchCount = (TextView) view.findViewById(R.id.tv_search_items_count);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAudioAdapter = new AudioAdapter(getContext(), new OnClickItem() {
@@ -132,6 +137,10 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        mAllCount = mAudioAdapter.getItemCount();
+
+        mSearchCount.setText(mAllCount + "/" + mAllCount);
+
         return view;
     }
 
@@ -171,6 +180,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void update(List<AudioTrack> list) {
+        mSearchCount.setText(list.size() + "/" + mAllCount);
         mAudioAdapter.setAudioTracks(list);
         mAudioAdapter.notifyDataSetChanged();
     }
