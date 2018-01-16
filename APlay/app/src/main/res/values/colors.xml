@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#bfbfbf</color>
+    <color name="colorPrimaryDark">#FF4081</color>
+    <color name="colorAccent">#308a8a</color>
+    <color name="black">#000000</color>
+    <color name="gray">#e2e2e2</color>
+    <color name="gray_more">#868686</color>
+    <color name="gray_less">#bfbfbf</color>
+    <color name="transparent">#00000000</color>
+    <color name="selected_background">#ffffff</color>
+    <color name="text_color">#3c3f41</color>
+    <color name="play_box">#969797</color>
+</resources>
