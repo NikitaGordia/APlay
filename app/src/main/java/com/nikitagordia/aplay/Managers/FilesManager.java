@@ -1,16 +1,13 @@
 package com.nikitagordia.aplay.Managers;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.nikitagordia.aplay.Fragments.PlayerListFragment;
+import com.nikitagordia.aplay.Fragments.MainFragment;
 import com.nikitagordia.aplay.Models.AudioTrack;
 
 import java.util.ArrayList;
@@ -22,9 +19,9 @@ import java.util.List;
 
 public class FilesManager extends AsyncTask<Void,Void,List<AudioTrack>>{
 
-    private PlayerListFragment mContext;
+    private MainFragment mContext;
 
-    public FilesManager(PlayerListFragment context) {
+    public FilesManager(MainFragment context) {
         mContext = context;
     }
 

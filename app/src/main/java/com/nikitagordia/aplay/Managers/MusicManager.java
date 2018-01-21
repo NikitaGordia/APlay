@@ -1,7 +1,5 @@
 package com.nikitagordia.aplay.Managers;
 
-import android.util.Log;
-
 import com.nikitagordia.aplay.Models.AudioTrack;
 
 import java.util.ArrayList;
@@ -11,14 +9,14 @@ import java.util.List;
  * Created by root on 13.01.18.
  */
 
-public class SearchManager {
+public class MusicManager {
 
-    private static SearchManager mInstance;
+    private static MusicManager mInstance;
 
     private List<AudioTrack> mAudioTracks;
 
-    public static SearchManager get() {
-        if (mInstance == null) mInstance = new SearchManager();
+    public static MusicManager get() {
+        if (mInstance == null) mInstance = new MusicManager();
         return mInstance;
     }
 

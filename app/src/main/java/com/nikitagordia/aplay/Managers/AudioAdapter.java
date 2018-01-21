@@ -27,19 +27,23 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     private List<AudioTrack> mAudioTracks;
     private Context mContext;
     private OnClickItem mOnClickListener;
+    private RecyclerView mRecyclerView;
     private int selected = -1;
 
-    public AudioAdapter(Context context, OnClickItem onClickItem) {
+    public AudioAdapter(RecyclerView parent, Context context, OnClickItem onClickItem) {
         mContext = context;
         mOnClickListener = onClickItem;
         mAudioTracks = new ArrayList();
+        mRecyclerView = parent;
     }
 
     public AudioTrack getForLoading(int pos) {
         updateAndSetSelected(pos);
         if (pos >= mAudioTracks.size()) return null;
-            else
-                return getItem(pos);
+            else {
+            mRecyclerView.scrollToPosition(pos);
+            return getItem(pos);
+        }
     }
 
     public AudioTrack getRandomSong() {
@@ -77,6 +81,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     private void updateAndSetSelected(int newSelect) {
         selected = newSelect;
         notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(selected);
     }
 
     public int getPosByUrl(String url) {

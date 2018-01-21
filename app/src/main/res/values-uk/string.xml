@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">APlay</string>
+    <string name="search">Пошук</string>
+    <string name="settings">Налаштування</string>
+    <string name="back">Назад</string>
+    <string name="sort_by_duraition">Тривалість</string>
+    <string name="sort_by_artist">Співак</string>
+    <string name="sort_by_name">Назва</string>
+    <string name="sort_by_album">Альбом</string>
+    <string name="perm_denied">Доступ заборонений</string>
+    <string name="failed">Помилка</string>
+</resources>

@@ -7,4 +7,6 @@
     <string name="sort_by_artist">Artist</string>
     <string name="sort_by_name">Title</string>
     <string name="sort_by_album">Album</string>
+    <string name="perm_denied">Permissions denied</string>
+    <string name="failed">Failed</string>
 </resources>

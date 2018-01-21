@@ -3,21 +3,19 @@ package com.nikitagordia.aplay.Fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -25,7 +23,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Managers.AudioAdapter;
 import com.nikitagordia.aplay.Managers.MyPreferencesManager;
-import com.nikitagordia.aplay.Managers.SearchManager;
+import com.nikitagordia.aplay.Managers.MusicManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
@@ -72,7 +70,7 @@ public class SearchFragment extends Fragment {
         mSearchCount = (TextView) view.findViewById(R.id.tv_search_items_count);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAudioAdapter = new AudioAdapter(getContext(), new OnClickItem() {
+        mAudioAdapter = new AudioAdapter(mRecyclerView, getContext(), new OnClickItem() {
             @Override
             public void onClick(int pos) {
                 Intent res = new Intent();
@@ -82,7 +80,7 @@ public class SearchFragment extends Fragment {
             }
         });
         mRecyclerView.setAdapter(mAudioAdapter);
-        mAudioAdapter.update(SearchManager.get().getAudioTracks());
+        mAudioAdapter.update(MusicManager.get().getAudioTracks());
 
         mFloatingBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,14 +160,14 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                update(SearchManager.get().filter(newText));
+                update(MusicManager.get().filter(newText));
                 MyPreferencesManager.setLastQuery(getContext(), newText);
                 return true;
             }
         });
 
         String lastQuery = MyPreferencesManager.getLastQuery(getContext());
-        update(SearchManager.get().filter(lastQuery));
+        update(MusicManager.get().filter(lastQuery));
         searchView.setQuery(lastQuery, false);
     }
 
