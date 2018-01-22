@@ -33,19 +33,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (lists[position] == null) {
-            switch (position) {
-                case 0 :
-                    lists[position] = new MainListFragment();
-                    break;
-                case 1 :
-                    lists[position] = new RecentListFragment();
-                    break;
-                case 2 :
-                    lists[position] = new MainListFragment();
-                    break;
-            }
-        }
+        lists[position].update();
         return lists[position];
     }
 

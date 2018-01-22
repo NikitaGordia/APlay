@@ -21,4 +21,6 @@ public abstract class ListableFragment extends Fragment {
     public abstract int getPosByUrl(String url);
 
     public abstract AudioTrack getForLoading(int pos);
+
+    public abstract void resetSelected();
 }

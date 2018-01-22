@@ -8,5 +8,5 @@ import com.nikitagordia.aplay.Models.AudioTrack;
 
 public interface OnClickItem {
 
-    void onClick(int pos);
+    void onClick(int pos, ListableFragment frag);
 }

@@ -46,12 +46,6 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
         }
     }
 
-    public AudioTrack getRandomSong() {
-        if (mAudioTracks.isEmpty()) return null;
-        Random r = new Random();
-        return mAudioTracks.get(r.nextInt(mAudioTracks.size()));
-    }
-
     public void reset() {
         notifyItemRangeRemoved(0, mAudioTracks.size());
         mAudioTracks.clear();
@@ -82,6 +76,11 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
         selected = newSelect;
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(selected);
+    }
+
+    public void resetSelected() {
+        selected = -1;
+        notifyDataSetChanged();
     }
 
     public int getPosByUrl(String url) {
@@ -142,7 +141,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
         @Override
         public void onClick(View view) {
             updateAndSetSelected(mPosition);
-            mOnClickListener.onClick(mPosition);
+            mOnClickListener.onClick(mPosition, null);
         }
 
         private void setSelected(boolean selected) {

@@ -24,8 +24,6 @@ import com.nikitagordia.aplay.SearchActivity;
 
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
-
 /**
  * Created by root on 1/21/18.
  */
@@ -52,7 +50,6 @@ public class MainListFragment extends ListableFragment implements OnClickItem {
         mAudioAdapter = new AudioAdapter(mRecyclerView, getContext(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAudioAdapter);
-        mRecyclerView.setItemAnimator(new SlideInUpAnimator());
 
         mSearchFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,11 +66,14 @@ public class MainListFragment extends ListableFragment implements OnClickItem {
             }
         });
 
+        update();
+
         return view;
     }
 
     @Override
     public void update() {
+        if (mAudioAdapter == null) return;
         if (mAudioAdapter.getAudioTracks().size() == MusicManager.get().getAudioTracks().size()) return;
         List<AudioTrack> list = MusicManager.get().getAudioTracks();
         if (list != null) {
@@ -93,8 +93,13 @@ public class MainListFragment extends ListableFragment implements OnClickItem {
     }
 
     @Override
-    public void onClick(int pos) {
-        ((OnClickItem) getActivity()).onClick(pos);
+    public void onClick(int pos, ListableFragment frag) {
+        ((OnClickItem) getActivity()).onClick(pos, this);
+    }
+
+    @Override
+    public void resetSelected() {
+        mAudioAdapter.resetSelected();
     }
 
     @Override

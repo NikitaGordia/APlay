@@ -17,23 +17,7 @@ import java.util.List;
  * Created by root on 20.12.17.
  */
 
-public class FilesManager extends AsyncTask<Void,Void,List<AudioTrack>>{
-
-    private MainFragment mContext;
-
-    public FilesManager(MainFragment context) {
-        mContext = context;
-    }
-
-    @Override
-    protected List<AudioTrack> doInBackground(Void... voids) {
-        return getAudioFiles(mContext.getContext());
-    }
-
-    @Override
-    protected void onPostExecute(List<AudioTrack> audioTracks) {
-        mContext.onSongList(audioTracks);
-    }
+public class FilesManager {
 
     public static List<AudioTrack> getAudioFiles(Context context) {
         ArrayList<AudioTrack> res = new ArrayList<>();

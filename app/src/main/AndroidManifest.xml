@@ -6,25 +6,27 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/icon"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/icon"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
             android:theme="@style/AppThemeNoBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SearchActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".SearchActivity"
-            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

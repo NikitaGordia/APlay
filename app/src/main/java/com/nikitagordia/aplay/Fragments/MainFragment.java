@@ -53,7 +53,6 @@ public class MainFragment extends Fragment implements
         SeekBar.OnSeekBarChangeListener {
 
     private static final int PROGRESS_UPDATE_DELAY = 100;
-    private static final int LIST_COUNT = 3;
 
     private TextView mTrackName, mTime, mDuration;
     private ImageButton mNext, mPlay, mPrev;
@@ -65,11 +64,16 @@ public class MainFragment extends Fragment implements
     private CardView mMusicBox;
     private TabLayout mTabLayout;
     private FragmentPagerAdapter mPagerAdapter;
-    private ListableFragment[] lists = new ListableFragment[LIST_COUNT];
     private Handler mHandler = new Handler();
+    private ListableFragment[] lists = {
+            new MainListFragment(),
+            new RecentListFragment(),
+            new MainListFragment()
+    };
 
     private boolean mSongWasLoaded;
     private int currentList;
+    private ListableFragment mCurrentFragment;
     private boolean hasFinished;
     private PairKeepManager pair1 = new PairKeepManager(),
             pair2 = new PairKeepManager();
@@ -130,14 +134,14 @@ public class MainFragment extends Fragment implements
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                preLoadSong(lists[currentList].nextSong());
+                loadSong(mCurrentFragment.nextSong(), true);
             }
         });
 
         mPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                preLoadSong(lists[currentList].prevSong());
+                loadSong(mCurrentFragment.prevSong(), true);
             }
         });
 
@@ -190,7 +194,8 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        preLoadSong(lists[currentList].nextSong());
+        Log.d("mytg", "2");
+        loadSong(mCurrentFragment.nextSong(), true);
     }
 
     @Override
@@ -210,10 +215,13 @@ public class MainFragment extends Fragment implements
         mHandler.postDelayed(mProgressUpdater, PROGRESS_UPDATE_DELAY);
     }
 
+
+
     private void loadSong(AudioTrack audioTrack, boolean startPlaying) {
+        Log.d("mytg", "3");
         if (audioTrack == null) return;
 
-
+        Log.d("mytg", "4");
         resetUIBar();
         mMediaPlayer.reset();
         try {
@@ -264,45 +272,16 @@ public class MainFragment extends Fragment implements
         stopPlaySong();
     }
 
-    public void onClick(int pos) {
-        loadSong(lists[currentList].getForLoading(pos), true);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        fileLoading(false);
+    public void onClick(int pos, ListableFragment frag) {
+        for (int i = 0; i < lists.length; i++)
+            if (lists[i] != frag) lists[i].resetSelected();
+        mCurrentFragment = frag;
+        loadSong(frag.getForLoading(pos), true);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        fileLoading(true);
-    }
-
-    private void preLoadSong(AudioTrack audioTrack) {
-        if (audioTrack != null) loadSong(audioTrack, true);
-    }
-
-    private void fileLoading(boolean first) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (!first) Toast.makeText(getContext(), getResources().getString(R.string.perm_denied) + " :(", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        new FilesManager(this).execute();
-    }
-
-    public void onSongList(List<AudioTrack> audioTrackList) {
-        MusicManager.get().setList(audioTrackList);
-        DBManager.get(getActivity()).updateAudioTracks(audioTrackList);
-
-        lists[currentList].update();
-
-        if (!mMediaPlayer.isPlaying()) loadSong(lists[currentList].getForLoading(0), false);
     }
 
     @Override
@@ -313,6 +292,7 @@ public class MainFragment extends Fragment implements
             if (url == null) return;
             int pos = lists[currentList].getPosByUrl(url);
             if (pos == -1) return;
+            mCurrentFragment = lists[currentList];
             loadSong(lists[currentList].getForLoading(pos), false);
         }
     }

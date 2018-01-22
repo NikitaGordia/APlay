@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.nikitagordia.aplay.Abstract.FragmentContainerActivity;
+import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Fragments.MainFragment;
 
@@ -23,19 +24,11 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
 
         mMainFragment = new MainFragment();
         putFragment(R.id.fragment_container, mMainFragment);
-
-        setUpPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
     }
 
     @Override
-    public void onClick(int pos) {
-        mMainFragment.onClick(pos);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        mMainFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void onClick(int pos, ListableFragment frag) {
+        mMainFragment.onClick(pos, frag);
     }
 
     @Override
@@ -45,7 +38,6 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
     }
 }
 
-
+//TODO breaking sound...
 //TODO HeadSet unplug
-//TODO SplashScreen https://habrahabr.ru/post/312516/
 //TODO Notification head
