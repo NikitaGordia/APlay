@@ -2,6 +2,8 @@ package com.nikitagordia.aplay.Models;
 
 import android.media.AudioManager;
 
+import java.util.Date;
+
 /**
  * Created by root on 20.12.17.
  */
@@ -9,7 +11,8 @@ import android.media.AudioManager;
 public class AudioTrack {
 
     private String mName, mAlbum, mArtist, mUrl;
-    private int mDuration;
+    private int mDuration, mCount;
+    private long mDate;
 
     public AudioTrack(String name, String album, String artist, int duration, String url) {
         mName = removeMp3(name);
@@ -17,12 +20,39 @@ public class AudioTrack {
         mArtist = artist;
         mDuration = duration;
         mUrl = url;
+        mDate = 0;
+        mCount = 0;
+    }
+
+    public AudioTrack() {
+
+    }
+
+    public void update() {
+        mCount++;
+        mDate = (new Date()).getTime();
     }
 
     private String removeMp3(String str) {
         if (str.endsWith(".mp3") || str.endsWith(".MP3"))
             return str.substring(0, str.length() - 4);
         return str;
+    }
+
+    public int getCount() {
+        return mCount;
+    }
+
+    public void setCount(int count) {
+        mCount = count;
+    }
+
+    public long getDate() {
+        return mDate;
+    }
+
+    public void setDate(long date) {
+        mDate = date;
     }
 
     public String getName() {
@@ -43,5 +73,9 @@ public class AudioTrack {
 
     public String getUrl() {
         return mUrl;
+    }
+
+    public void setUrl(String url) {
+        mUrl = url;
     }
 }

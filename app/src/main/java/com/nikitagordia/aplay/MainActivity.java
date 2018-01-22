@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.nikitagordia.aplay.Abstract.FragmentContainerActivity;
@@ -43,3 +44,8 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
         mMainFragment.onActivityResult(requestCode, resultCode, data);
     }
 }
+
+
+//TODO HeadSet unplug
+//TODO SplashScreen https://habrahabr.ru/post/312516/
+//TODO Notification head

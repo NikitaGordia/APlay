@@ -1,6 +1,5 @@
 package com.nikitagordia.aplay.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,65 +10,54 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Managers.AudioAdapter;
-import com.nikitagordia.aplay.Managers.FilesManager;
 import com.nikitagordia.aplay.Managers.MusicManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
-import com.nikitagordia.aplay.SearchActivity;
 
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
- * Created by root on 1/21/18.
+ * Created by root on 1/22/18.
  */
 
-public class MainListFragment extends ListableFragment implements OnClickItem {
-
-    public static final int CODE_ON_SEARCH_RESULT = 0;
+public class RecentListFragment extends ListableFragment implements OnClickItem{
 
     private RecyclerView mRecyclerView;
     private AudioAdapter mAudioAdapter;
-    private FloatingActionButton mSearchFab, mSettingsFab;
-    private FloatingActionMenu mFloatingActionMenu;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_list_fragment, container, false);
+        View view = inflater.inflate(R.layout.recent_list_fragment, container, false);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_audio_list);
-        mSearchFab = (FloatingActionButton) view.findViewById(R.id.fab_search);
-        mSettingsFab = (FloatingActionButton) view.findViewById(R.id.fab_setting);
-        mFloatingActionMenu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recent_list);
 
         mAudioAdapter = new AudioAdapter(mRecyclerView, getContext(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAudioAdapter);
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
 
-        mSearchFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFloatingActionMenu.close(true);
-                getActivity().startActivityForResult(new Intent(getContext(), SearchActivity.class), CODE_ON_SEARCH_RESULT);
-            }
-        });
-
-        mSettingsFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO
-            }
-        });
-
         return view;
+    }
+
+    @Override
+    public void onClick(int pos) {
+        ((OnClickItem) getActivity()).onClick(pos);
+    }
+
+    @Override
+    public AudioTrack nextSong() {
+        return mAudioAdapter.next();
+    }
+
+    @Override
+    public AudioTrack prevSong() {
+        return mAudioAdapter.prev();
     }
 
     @Override
@@ -90,20 +78,5 @@ public class MainListFragment extends ListableFragment implements OnClickItem {
     @Override
     public AudioTrack getForLoading(int pos) {
         return mAudioAdapter.getForLoading(pos);
-    }
-
-    @Override
-    public void onClick(int pos) {
-        ((OnClickItem) getActivity()).onClick(pos);
-    }
-
-    @Override
-    public AudioTrack nextSong() {
-        return mAudioAdapter.next();
-    }
-
-    @Override
-    public AudioTrack prevSong() {
-        return mAudioAdapter.prev();
     }
 }

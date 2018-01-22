@@ -6,8 +6,11 @@
     <string name="back">Назад</string>
     <string name="sort_by_duraition">Длительность</string>
     <string name="sort_by_artist">Артист</string>
-    <string name="sort_by_name">Имя</string>
+    <string name="sort_by_name">Название</string>
     <string name="sort_by_album">Альбом</string>
     <string name="perm_denied">Доступ запрещен</string>
     <string name="failed">Ошибка</string>
+    <string name="all_songs">Все песни</string>
+    <string name="recent">Недавние</string>
+    <string name="smart_list">Smart вибор</string>
 </resources>

@@ -10,4 +10,7 @@
     <string name="sort_by_album">Альбом</string>
     <string name="perm_denied">Доступ заборонений</string>
     <string name="failed">Помилка</string>
+    <string name="all_songs">Всі пісні</string>
+    <string name="recent">Недавні</string>
+    <string name="smart_list">Smart вибір</string>
 </resources>

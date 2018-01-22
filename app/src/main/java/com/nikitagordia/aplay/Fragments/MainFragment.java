@@ -13,8 +13,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
@@ -30,7 +32,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nikitagordia.aplay.Abstract.ListableFragment;
+import com.nikitagordia.aplay.Managers.DBManager;
 import com.nikitagordia.aplay.Managers.FilesManager;
+import com.nikitagordia.aplay.Managers.PagerAdapter;
 import com.nikitagordia.aplay.Managers.PairKeepManager;
 import com.nikitagordia.aplay.Managers.MusicManager;
 import com.nikitagordia.aplay.Managers.UtilsManager;
@@ -49,6 +53,7 @@ public class MainFragment extends Fragment implements
         SeekBar.OnSeekBarChangeListener {
 
     private static final int PROGRESS_UPDATE_DELAY = 100;
+    private static final int LIST_COUNT = 3;
 
     private TextView mTrackName, mTime, mDuration;
     private ImageButton mNext, mPlay, mPrev;
@@ -58,12 +63,14 @@ public class MainFragment extends Fragment implements
     private ViewPager mViewPager;
     private NestedScrollView mNestedScrollView;
     private CardView mMusicBox;
+    private TabLayout mTabLayout;
     private FragmentPagerAdapter mPagerAdapter;
-    private ListableFragment[] lists = new ListableFragment[2];
+    private ListableFragment[] lists = new ListableFragment[LIST_COUNT];
     private Handler mHandler = new Handler();
 
     private boolean mSongWasLoaded;
     private int currentList;
+    private boolean hasFinished;
     private PairKeepManager pair1 = new PairKeepManager(),
             pair2 = new PairKeepManager();
 
@@ -81,29 +88,14 @@ public class MainFragment extends Fragment implements
         mPrev = (ImageButton) view.findViewById(R.id.ib_prev);
         mMusicBox = (CardView) view.findViewById(R.id.music_box);
         mPosition = (SeekBar) view.findViewById(R.id.sb_progress);
+        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
         mViewPager = (ViewPager) view.findViewById(R.id.lists_container);
         mNestedScrollView = (NestedScrollView) view.findViewById(R.id.bottom_sheet);
         final CardView playBox = (CardView) view.findViewById(R.id.play_box);
 
         mMediaPlayer = new MediaPlayer();
 
-        mPagerAdapter = new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                if (lists[position] == null) {
-                    switch (position) {
-                        case 0 : lists[position] = new MainListFragment();
-                        case 1 : lists[position] = new MainListFragment();
-                    }
-                }
-                return lists[position];
-            }
-
-            @Override
-            public int getCount() {
-                return lists.length;
-            }
-        };
+        mPagerAdapter = new PagerAdapter(getActivity(), lists);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -122,6 +114,7 @@ public class MainFragment extends Fragment implements
             }
         });
         mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOffscreenPageLimit(lists.length);
 
         mPosition.setOnSeekBarChangeListener(this);
         mMediaPlayer.setOnCompletionListener(this);
@@ -148,9 +141,7 @@ public class MainFragment extends Fragment implements
             }
         });
 
-        View bottomSheet = view.findViewById( R.id.bottom_sheet );
-
-        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(mNestedScrollView);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         playBox.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -190,6 +181,8 @@ public class MainFragment extends Fragment implements
             }
         });
 
+        mTabLayout.setupWithViewPager(mViewPager);
+
         return view;
     }
 
@@ -227,6 +220,8 @@ public class MainFragment extends Fragment implements
             mMediaPlayer.setDataSource(audioTrack.getUrl());
 
             loadUIBar(audioTrack);
+
+            audioTrack.update();
 
             mSongWasLoaded = true;
             if (startPlaying) {
@@ -303,6 +298,8 @@ public class MainFragment extends Fragment implements
 
     public void onSongList(List<AudioTrack> audioTrackList) {
         MusicManager.get().setList(audioTrackList);
+        DBManager.get(getActivity()).updateAudioTracks(audioTrackList);
+
         lists[currentList].update();
 
         if (!mMediaPlayer.isPlaying()) loadSong(lists[currentList].getForLoading(0), false);
@@ -322,13 +319,22 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
         mMediaPlayer.release();
+        hasFinished = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        DBManager.get(getActivity()).storeAudioTracks(MusicManager.get().getAudioTracks());
     }
 
     private Runnable mProgressUpdater = new Runnable() {
         @Override
         public void run() {
+            if (hasFinished) return;
             if (mMediaPlayer.isPlaying()) {
                 int tm = mMediaPlayer.getCurrentPosition();
                 mPosition.setProgress(tm);

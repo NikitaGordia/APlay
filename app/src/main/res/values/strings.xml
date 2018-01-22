@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">APlay</string>
     <string name="search">Search</string>
@@ -9,4 +10,7 @@
     <string name="sort_by_album">Album</string>
     <string name="perm_denied">Permissions denied</string>
     <string name="failed">Failed</string>
+    <string name="all_songs">All songs</string>
+    <string name="recent">Recent</string>
+    <string name="smart_list">Smart list</string>
 </resources>
