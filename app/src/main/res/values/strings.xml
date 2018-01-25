@@ -13,4 +13,17 @@
     <string name="all_songs">All songs</string>
     <string name="recent">Recent</string>
     <string name="smart_list">Smart list</string>
+
+    <string name="minute_1">One minute ago</string>
+    <string name="minute_5">Five minutes ago</string>
+    <string name="minute_10">Ten minutes ago</string>
+    <string name="minute_15">Fefteen minutes ago</string>
+    <string name="minute_30">Thirty minutes ago</string>
+    <string name="hour_1">One hour ago</string>
+    <string name="hour_2">Two hours ago</string>
+    <string name="hour_3">Three hours ago</string>
+    <string name="hour_5">Five hours ago</string>
+    <string name="day_1">Yesterday</string>
+    <string name="day_2">Two days ago</string>
+    <string name="never">A long time ago in a galaxy far, far away...</string>
 </resources>

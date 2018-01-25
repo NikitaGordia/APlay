@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nikitagordia.aplay.Abstract.OnClickItem;
+import com.nikitagordia.aplay.Abstract.RecyclerHolder;
+import com.nikitagordia.aplay.Fragments.RecentListFragment;
 import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
@@ -22,7 +24,7 @@ import java.util.Random;
  * Created by root on 20.12.17.
  */
 
-public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHolder> {
+public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
 
     private List<AudioTrack> mAudioTracks;
     private Context mContext;
@@ -54,6 +56,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     public AudioTrack next() {
         if (mAudioTracks.isEmpty()) return null;
         int pos = selected + 1;
+        if (pos < mAudioTracks.size() && getItem(pos).getUrl().equals(RecentListFragment.DELIMITER)) pos++;
         if (selected == mAudioTracks.size() - 1) pos = 0;
         updateAndSetSelected(pos);
         return getItem(pos);
@@ -62,6 +65,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     public AudioTrack prev() {
         if (mAudioTracks.isEmpty()) return null;
         int pos = selected - 1;
+        if (pos > 0 && getItem(pos).getUrl().equals(RecentListFragment.DELIMITER)) pos--;
         if (selected == 0) pos = mAudioTracks.size() - 1;
         updateAndSetSelected(pos);
         return getItem(pos);
@@ -70,6 +74,20 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     public void update(List<AudioTrack> list) {
         mAudioTracks.addAll(list);
         notifyItemRangeInserted(0, mAudioTracks.size());
+    }
+
+    public void updateList(List<AudioTrack> list) {
+        if (!toUpdate(list) || list.isEmpty()) return;
+        reset();
+        update(list);
+        if (selected != -1) updateAndSetSelected(0);
+    }
+
+    private boolean toUpdate(List<AudioTrack> list) {
+        if (list.size() != mAudioTracks.size()) return true;
+        for (int i = 0; i < list.size(); i++)
+            if (list.get(i) != mAudioTracks.get(i)) return true;
+        return false;
     }
 
     private void updateAndSetSelected(int newSelect) {
@@ -95,17 +113,23 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
     }
 
     @Override
-    public AudioTrackHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new AudioTrackHolder(LayoutInflater.from(mContext), parent);
+    public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == 0)
+                return new DelimiterHolder(LayoutInflater.from(mContext), parent);
+            else
+                return new AudioTrackHolder(LayoutInflater.from(mContext), parent);
     }
 
     @Override
-    public void onBindViewHolder(AudioTrackHolder holder, int position) {
+    public void onBindViewHolder(RecyclerHolder holder, int position) {
         holder.bind(getItem(position), position);
     }
 
-    public int getSelected() {
-        return selected;
+    @Override
+    public int getItemViewType(int position) {
+        if (getItem(position).getUrl().equals(RecentListFragment.DELIMITER)) return 0;
+            else
+                return 1;
     }
 
     @Override
@@ -121,7 +145,24 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
         mAudioTracks = audioTracks;
     }
 
-    public class AudioTrackHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class DelimiterHolder extends RecyclerHolder {
+
+        private TextView tv;
+
+        public DelimiterHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.delimiter_item, parent, false));
+
+            tv = (TextView) itemView.findViewById(R.id.tv_time_delimiter);
+        }
+
+        @Override
+        public void bind(AudioTrack track, int position) {
+            int type = (int)track.getDate();
+            tv.setText(mContext.getResources().getString(RecentListFragment.DELIMITER_STRINGS[type]));
+        }
+    }
+
+    public class AudioTrackHolder extends RecyclerHolder implements View.OnClickListener {
 
         private TextView mTitle, mAlbum, mDuration;
         private CardView mCardViewContainer;
@@ -154,6 +195,7 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.AudioTrackHo
             }
         }
 
+        @Override
         public void bind(AudioTrack audioTrack, int position) {
             mAudioTrack = audioTrack;
             mPosition = position;

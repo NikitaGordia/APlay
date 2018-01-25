@@ -17,6 +17,10 @@ import com.nikitagordia.aplay.Managers.MusicManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +28,36 @@ import java.util.List;
  */
 
 public class RecentListFragment extends ListableFragment implements OnClickItem{
+
+    public static final String DELIMITER = "delimiter";
+    private static final long[] DELIMITER_VALUES = {
+            60 * 60 * 60, // minute
+            60 * 60 * 60 * 5,
+            60 * 60 * 60 * 10,
+            60 * 60 * 60 * 15,
+            60 * 60 * 60 * 30,
+            60 * 60 * 60 * 60, // hour
+            60 * 60 * 60 * 60 * 2,
+            60 * 60 * 60 * 60 * 3,
+            60 * 60 * 60 * 60 * 5,
+            60 * 60 * 60 * 60 * 24, // day
+            60 * 60 * 60 * 60 * 24 * 2,
+            60 * 60 * 60 * 60 * 24 * 10
+    };
+    public static final int[] DELIMITER_STRINGS = {
+            R.string.minute_1,
+            R.string.minute_5,
+            R.string.minute_10,
+            R.string.minute_15,
+            R.string.minute_30,
+            R.string.hour_1,
+            R.string.hour_2,
+            R.string.hour_3,
+            R.string.hour_5,
+            R.string.day_1,
+            R.string.day_2,
+            R.string.never
+    };
 
     private RecyclerView mRecyclerView;
     private AudioAdapter mAudioAdapter;
@@ -61,13 +95,39 @@ public class RecentListFragment extends ListableFragment implements OnClickItem{
 
     @Override
     public void update() {
-        if (mAudioAdapter == null) return;
-        if (mAudioAdapter.getAudioTracks().size() == MusicManager.get().getAudioTracks().size()) return;
-        List<AudioTrack> list = MusicManager.get().getAudioTracks();
-        if (list != null) {
-            mAudioAdapter.reset();
-            mAudioAdapter.update(list);
+        if (mAudioAdapter == null || MusicManager.get().getAudioTracks() == null) return;
+        mAudioAdapter.updateList(prepareList(MusicManager.get().getAudioTracks()));
+    }
+
+    private List<AudioTrack> prepareList(List<AudioTrack> list) {
+        List<AudioTrack> toSort = new ArrayList();
+        toSort.addAll(list);
+        if (toSort.isEmpty()) return toSort;
+        Collections.sort(toSort, new Comparator<AudioTrack>() {
+            @Override
+            public int compare(AudioTrack o1, AudioTrack o2) {
+                if (o1.getDate() == o2.getDate()) return 0;
+                if (o1.getDate() > o2.getDate()) return -1; else return 1;
+            }
+        });
+        int current = 0;
+        long currentDate = (new Date()).getTime();
+        boolean isOver = false;
+        List<AudioTrack> result = new ArrayList();
+        for (AudioTrack track : toSort) {
+            long late = currentDate - track.getDate();
+            AudioTrack delim = null;
+            while (late >= DELIMITER_VALUES[current] && !isOver) {
+                delim = new AudioTrack();
+                delim.setUrl(DELIMITER);
+                delim.setDate(current);
+                if (current == DELIMITER_VALUES.length - 1) isOver = true; else current++;
+            }
+            if (!result.isEmpty() && delim != null) result.add(delim);
+            result.add(track);
         }
+        Collections.reverse(result);
+        return result;
     }
 
     @Override

@@ -22,8 +22,6 @@ import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 import com.nikitagordia.aplay.SearchActivity;
 
-import java.util.List;
-
 /**
  * Created by root on 1/21/18.
  */
@@ -73,13 +71,8 @@ public class MainListFragment extends ListableFragment implements OnClickItem {
 
     @Override
     public void update() {
-        if (mAudioAdapter == null) return;
-        if (mAudioAdapter.getAudioTracks().size() == MusicManager.get().getAudioTracks().size()) return;
-        List<AudioTrack> list = MusicManager.get().getAudioTracks();
-        if (list != null) {
-            mAudioAdapter.reset();
-            mAudioAdapter.update(list);
-        }
+        if (mAudioAdapter == null || MusicManager.get().getAudioTracks() == null) return;
+        mAudioAdapter.updateList(MusicManager.get().getAudioTracks());
     }
 
     @Override

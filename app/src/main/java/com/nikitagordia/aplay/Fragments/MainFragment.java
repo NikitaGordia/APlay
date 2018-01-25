@@ -194,7 +194,6 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        Log.d("mytg", "2");
         loadSong(mCurrentFragment.nextSong(), true);
     }
 
@@ -218,10 +217,8 @@ public class MainFragment extends Fragment implements
 
 
     private void loadSong(AudioTrack audioTrack, boolean startPlaying) {
-        Log.d("mytg", "3");
         if (audioTrack == null) return;
 
-        Log.d("mytg", "4");
         resetUIBar();
         mMediaPlayer.reset();
         try {

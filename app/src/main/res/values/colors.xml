@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#bfbfbf</color>
-    <color name="colorPrimaryDark">#FF4081</color>
+    <color name="colorPrimaryDark">#005958</color>
     <color name="colorAccent">#308a8a</color>
     <color name="black">#000000</color>
     <color name="gray">#e2e2e2</color>
@@ -11,4 +11,5 @@
     <color name="selected_background">#ffffff</color>
     <color name="text_color">#3c3f41</color>
     <color name="play_box">#969797</color>
+    <color name="splashColorPrimaryDark">#1D337E</color>
 </resources>

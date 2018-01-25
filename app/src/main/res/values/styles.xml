@@ -4,12 +4,13 @@
     <style name="AppThemeNoBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/gray_more</item>
-        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="SplashTheme" parent="AppThemeNoBar">
         <item name="android:windowBackground">@drawable/layer_splash_background</item>
+        <item name="colorPrimaryDark">@color/splashColorPrimaryDark</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light">

@@ -25,7 +25,7 @@ public class AudioTrack {
     }
 
     public AudioTrack() {
-
+        this("", "", "", 0, "");
     }
 
     public void update() {
