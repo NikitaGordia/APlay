@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by root on 1/22/18.
@@ -31,18 +32,18 @@ public class RecentListFragment extends ListableFragment implements OnClickItem{
 
     public static final String DELIMITER = "delimiter";
     private static final long[] DELIMITER_VALUES = {
-            60 * 60 * 60, // minute
-            60 * 60 * 60 * 5,
-            60 * 60 * 60 * 10,
-            60 * 60 * 60 * 15,
-            60 * 60 * 60 * 30,
-            60 * 60 * 60 * 60, // hour
-            60 * 60 * 60 * 60 * 2,
-            60 * 60 * 60 * 60 * 3,
-            60 * 60 * 60 * 60 * 5,
-            60 * 60 * 60 * 60 * 24, // day
-            60 * 60 * 60 * 60 * 24 * 2,
-            60 * 60 * 60 * 60 * 24 * 10
+            1000 * 60, // minute
+            1000 * 60 * 5,
+            1000 * 60 * 10,
+            1000 * 60 * 15,
+            1000 * 60 * 30,
+            1000 * 60 * 60, // hour
+            1000 * 60 * 60 * 2,
+            1000 * 60 * 60 * 3,
+            1000 * 60 * 60 * 5,
+            1000 * 60 * 60 * 24, // day
+            1000 * 60 * 60 * 24 * 2,
+            1000 * 60 * 60 * 24 * 10
     };
     public static final int[] DELIMITER_STRINGS = {
             R.string.minute_1,
@@ -74,6 +75,8 @@ public class RecentListFragment extends ListableFragment implements OnClickItem{
         mRecyclerView.setAdapter(mAudioAdapter);
 
         update();
+
+        Log.d("mytg", TimeUnit.MINUTES.toMillis(1) + "");
 
         return view;
     }
