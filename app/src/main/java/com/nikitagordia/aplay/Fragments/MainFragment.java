@@ -227,6 +227,7 @@ public class MainFragment extends Fragment implements
             loadUIBar(audioTrack);
 
             audioTrack.update();
+            DBManager.get(getActivity()).incAudio(audioTrack);
 
             mSongWasLoaded = true;
             if (startPlaying) {
@@ -300,12 +301,6 @@ public class MainFragment extends Fragment implements
         super.onDestroy();
         mMediaPlayer.release();
         hasFinished = true;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        DBManager.get(getActivity()).storeAudioTracks(MusicManager.get().getAudioTracks());
     }
 
     private Runnable mProgressUpdater = new Runnable() {

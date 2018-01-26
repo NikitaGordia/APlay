@@ -59,10 +59,26 @@ public class DBManager {
         }
     }
 
-    public void storeAudioTracks(List<AudioTrack> list) {
+    public void clearDB() {
         mDatabase.delete(AudioDBShema.AudioInfoTable.NAME, null, null);
-        for (AudioTrack track : list)
-            mDatabase.insert(AudioDBShema.AudioInfoTable.NAME, null, getContentValues(track));
+    }
+
+    public void incAudio(AudioTrack track) {
+        AudioCursor cursor = query(AudioDBShema.AudioInfoTable.Columns.URL + " = ?", new String[] { track.getUrl() });
+        try {
+            if (cursor.moveToFirst()) {
+                mDatabase.update(AudioDBShema.AudioInfoTable.NAME,
+                        getContentValues(track),
+                        AudioDBShema.AudioInfoTable.Columns.URL + " = ?",
+                        new String[] { track.getUrl() });
+            } else {
+                mDatabase.insert(AudioDBShema.AudioInfoTable.NAME,
+                        null,
+                        getContentValues(track));
+            }
+        } finally {
+            cursor.close();
+        }
     }
 
     private AudioCursor query(String whereClause, String[] whereArgs) {
