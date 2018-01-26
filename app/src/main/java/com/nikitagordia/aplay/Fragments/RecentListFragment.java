@@ -76,8 +76,6 @@ public class RecentListFragment extends ListableFragment implements OnClickItem{
 
         update();
 
-        Log.d("mytg", TimeUnit.MINUTES.toMillis(1) + "");
-
         return view;
     }
 
