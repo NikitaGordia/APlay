@@ -68,7 +68,7 @@ public class MainFragment extends Fragment implements
     private ListableFragment[] lists = {
             new MainListFragment(),
             new RecentListFragment(),
-            new MainListFragment()
+            new SmartListFragment()
     };
 
     private boolean mSongWasLoaded;

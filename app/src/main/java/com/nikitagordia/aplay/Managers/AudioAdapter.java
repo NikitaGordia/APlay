@@ -78,9 +78,16 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
 
     public void updateList(List<AudioTrack> list) {
         if (!toUpdate(list) || list.isEmpty()) return;
+        String oldUrl = null;
+        if (selected != -1) oldUrl = getItem(selected).getUrl();
         reset();
         update(list);
-        if (selected != -1) updateAndSetSelected(0);
+        if (oldUrl != null) {
+            int pos = getPosByUrl(oldUrl);
+            Log.d("mytg", oldUrl + " " + pos);
+            if (pos != -1) updateAndSetSelected(pos);
+                    else updateAndSetSelected(0);
+        } else updateAndSetSelected(0);
     }
 
     private boolean toUpdate(List<AudioTrack> list) {
