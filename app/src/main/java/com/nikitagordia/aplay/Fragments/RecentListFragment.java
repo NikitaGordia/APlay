@@ -65,7 +65,6 @@ public class RecentListFragment extends ListableFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recent_list_fragment, container, false);
         super.onCreateView(view);
-        update();
         return view;
     }
 

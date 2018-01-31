@@ -109,7 +109,6 @@ public class MainFragment extends Fragment implements
             @Override
             public void onPageSelected(int position) {
                 currentList = position;
-                lists[position].onUpdate();
             }
 
             @Override
@@ -224,21 +223,33 @@ public class MainFragment extends Fragment implements
         try {
             mMediaPlayer.setDataSource(audioTrack.getUrl());
 
-            loadUIBar(audioTrack);
-
-            audioTrack.update();
-            DBManager.get(getActivity()).incAudio(audioTrack);
-
             mSongWasLoaded = true;
             if (startPlaying) {
                 mMediaPlayer.prepare();
                 startPlaySong();
             } else mMediaPlayer.prepareAsync();
+
+            MusicManager.get().setCurrentAudioUrl(audioTrack.getUrl());
+            audioTrack.update();
+
+            updateLists();
+
+            loadUIBar(audioTrack);
+
+            DBManager.get(getActivity()).incAudio(audioTrack);
+
+
+
         } catch (IOException e) {
             Toast.makeText(getContext(), getResources().getString(R.string.failed) + " :(", Toast.LENGTH_SHORT).show();
             mSongWasLoaded = false;
             return;
         }
+    }
+
+    private void updateLists() {
+        for (int i = 0; i < lists.length; i++)
+            if (lists[i] != mCurrentFragment) lists[i].onUpdate();
     }
 
     private void stopPlaySong() {
@@ -271,15 +282,8 @@ public class MainFragment extends Fragment implements
     }
 
     public void onClick(int pos, ListableFragment frag) {
-        for (int i = 0; i < lists.length; i++)
-            if (lists[i] != frag) lists[i].resetSelected();
         mCurrentFragment = frag;
         loadSong(frag.getForLoading(pos), true);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override

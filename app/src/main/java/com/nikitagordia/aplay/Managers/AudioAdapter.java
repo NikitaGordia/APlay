@@ -40,7 +40,6 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     }
 
     public AudioTrack getForLoading(int pos) {
-        updateAndSetSelected(pos);
         if (pos >= mAudioTracks.size()) return null;
             else {
             mRecyclerView.scrollToPosition(pos);
@@ -76,17 +75,17 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         notifyItemRangeInserted(0, mAudioTracks.size());
     }
 
+    public void updateSelection() {
+        if (selected != -1 && getItem(selected).getName().equals(MusicManager.get().getCurrentAudioUrl())) return;
+        updateAndSetSelected(getPosByUrl(MusicManager.get().getCurrentAudioUrl()));
+    }
+
     public void updateList(List<AudioTrack> list) {
+        updateSelection();
         if (!toUpdate(list) || list.isEmpty()) return;
-        String oldUrl = null;
-        if (selected != -1) oldUrl = getItem(selected).getUrl();
         reset();
         update(list);
-        if (oldUrl != null) {
-            int pos = getPosByUrl(oldUrl);
-            if (pos != -1) updateAndSetSelected(pos);
-                    else updateAndSetSelected(0);
-        } else updateAndSetSelected(0);
+        updateSelection();
     }
 
     private boolean toUpdate(List<AudioTrack> list) {
@@ -99,7 +98,7 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     private void updateAndSetSelected(int newSelect) {
         selected = newSelect;
         notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(selected);
+        if (selected != -1) mRecyclerView.scrollToPosition(selected);
     }
 
     public void resetSelected() {
@@ -108,7 +107,7 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     }
 
     public int getPosByUrl(String url) {
-        for (int i = 0; i < mAudioTracks.size(); i++)
+        for (int i = mAudioTracks.size() - 1; i >= 0; i--)
             if (mAudioTracks.get(i).getUrl().equals(url))
                 return mAudioTracks.size() - i - 1;
         return -1;

@@ -15,6 +15,8 @@ public class MusicManager {
 
     private List<AudioTrack> mAudioTracks;
 
+    private String currentAudioUrl = "";
+
     public static MusicManager get() {
         if (mInstance == null) mInstance = new MusicManager();
         return mInstance;
@@ -33,6 +35,14 @@ public class MusicManager {
         if (query.equals("")) return true;
         boolean result = track.getName().toLowerCase().indexOf(query) != -1;
         return result;
+    }
+
+    public String getCurrentAudioUrl() {
+        return currentAudioUrl;
+    }
+
+    public void setCurrentAudioUrl(String currentAudioUrl) {
+        this.currentAudioUrl = currentAudioUrl;
     }
 
     public void setList(List<AudioTrack> list) {

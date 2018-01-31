@@ -58,8 +58,6 @@ public class MainListFragment extends ListableFragment {
             }
         });
 
-        update();
-
         return view;
     }
 
