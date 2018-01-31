@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
+import com.nikitagordia.aplay.Fragments.RecentListFragment;
+import com.nikitagordia.aplay.Models.AudioTrack;
+
 /**
  * Created by root on 20.12.17.
  */

@@ -84,7 +84,6 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         update(list);
         if (oldUrl != null) {
             int pos = getPosByUrl(oldUrl);
-            Log.d("mytg", oldUrl + " " + pos);
             if (pos != -1) updateAndSetSelected(pos);
                     else updateAndSetSelected(0);
         } else updateAndSetSelected(0);
@@ -92,13 +91,8 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
 
     private boolean toUpdate(List<AudioTrack> list) {
         if (list.size() != mAudioTracks.size()) return true;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUrl().equals(RecentListFragment.DELIMITER)) {
-                if (list.get(i).getDate() != mAudioTracks.get(i).getDate()) return true;
-            } else {
-                if (list.get(i) != mAudioTracks.get(i)) return true;
-            }
-        }
+        for (int i = 0; i < list.size(); i++)
+            if (!list.get(i).equals(mAudioTracks.get(i))) return true;
         return false;
     }
 

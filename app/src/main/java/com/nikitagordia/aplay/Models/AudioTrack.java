@@ -2,6 +2,8 @@ package com.nikitagordia.aplay.Models;
 
 import android.media.AudioManager;
 
+import com.nikitagordia.aplay.Fragments.RecentListFragment;
+
 import java.util.Date;
 
 /**
@@ -37,6 +39,15 @@ public class AudioTrack {
         if (str.endsWith(".mp3") || str.endsWith(".MP3"))
             return str.substring(0, str.length() - 4);
         return str;
+    }
+
+    public boolean equals(AudioTrack track) {
+        if (isDelimiter() && track.isDelimiter()) return mDate == track.getDate();
+        return track.getUrl().equals(mUrl);
+    }
+
+    public boolean isDelimiter() {
+        return mUrl.equals(RecentListFragment.DELIMITER);
     }
 
     public int getCount() {
