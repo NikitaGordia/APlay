@@ -26,12 +26,10 @@ import com.nikitagordia.aplay.SearchActivity;
  * Created by root on 1/21/18.
  */
 
-public class MainListFragment extends ListableFragment implements OnClickItem {
+public class MainListFragment extends ListableFragment {
 
     public static final int CODE_ON_SEARCH_RESULT = 0;
 
-    private RecyclerView mRecyclerView;
-    private AudioAdapter mAudioAdapter;
     private FloatingActionButton mSearchFab, mSettingsFab;
     private FloatingActionMenu mFloatingActionMenu;
 
@@ -39,15 +37,11 @@ public class MainListFragment extends ListableFragment implements OnClickItem {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_list_fragment, container, false);
+        super.onCreateView(view);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_audio_list);
         mSearchFab = (FloatingActionButton) view.findViewById(R.id.fab_search);
         mSettingsFab = (FloatingActionButton) view.findViewById(R.id.fab_setting);
         mFloatingActionMenu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
-
-        mAudioAdapter = new AudioAdapter(mRecyclerView, getContext(), this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mAudioAdapter);
 
         mSearchFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,37 +65,6 @@ public class MainListFragment extends ListableFragment implements OnClickItem {
 
     @Override
     public void update() {
-        if (mAudioAdapter == null || MusicManager.get().getAudioTracks() == null) return;
         mAudioAdapter.updateList(MusicManager.get().getAudioTracks());
-    }
-
-    @Override
-    public int getPosByUrl(String url) {
-        return mAudioAdapter.getPosByUrl(url);
-    }
-
-    @Override
-    public AudioTrack getForLoading(int pos) {
-        return mAudioAdapter.getForLoading(pos);
-    }
-
-    @Override
-    public void onClick(int pos, ListableFragment frag) {
-        ((OnClickItem) getActivity()).onClick(pos, this);
-    }
-
-    @Override
-    public void resetSelected() {
-        mAudioAdapter.resetSelected();
-    }
-
-    @Override
-    public AudioTrack nextSong() {
-        return mAudioAdapter.next();
-    }
-
-    @Override
-    public AudioTrack prevSong() {
-        return mAudioAdapter.prev();
     }
 }

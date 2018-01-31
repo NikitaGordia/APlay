@@ -92,6 +92,7 @@
                 android:textAlignment="center"
                 android:textColor="?android:attr/colorForeground"
                 android:textSize="25sp"
+                android:textStyle="bold"
                 android:layout_margin="20dp"/>
 
             <SeekBar

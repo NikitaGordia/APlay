@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * Created by root on 1/22/18.
  */
 
-public class RecentListFragment extends ListableFragment implements OnClickItem{
+public class RecentListFragment extends ListableFragment {
 
     public static final String DELIMITER = "delimiter";
     private static final long[] DELIMITER_VALUES = {
@@ -60,43 +60,17 @@ public class RecentListFragment extends ListableFragment implements OnClickItem{
             R.string.never
     };
 
-    private RecyclerView mRecyclerView;
-    private AudioAdapter mAudioAdapter;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recent_list_fragment, container, false);
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recent_list);
-
-        mAudioAdapter = new AudioAdapter(mRecyclerView, getContext(), this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mAudioAdapter);
-
+        super.onCreateView(view);
         update();
-
         return view;
     }
 
     @Override
-    public void onClick(int pos, ListableFragment frag) {
-        ((OnClickItem) getActivity()).onClick(pos, this);
-    }
-
-    @Override
-    public AudioTrack nextSong() {
-        return mAudioAdapter.next();
-    }
-
-    @Override
-    public AudioTrack prevSong() {
-        return mAudioAdapter.prev();
-    }
-
-    @Override
     public void update() {
-        if (mAudioAdapter == null || MusicManager.get().getAudioTracks() == null) return;
         mAudioAdapter.updateList(prepareList(MusicManager.get().getAudioTracks()));
     }
 
@@ -129,20 +103,5 @@ public class RecentListFragment extends ListableFragment implements OnClickItem{
         }
         Collections.reverse(result);
         return result;
-    }
-
-    @Override
-    public void resetSelected() {
-        mAudioAdapter.resetSelected();
-    }
-
-    @Override
-    public int getPosByUrl(String url) {
-        return mAudioAdapter.getPosByUrl(url);
-    }
-
-    @Override
-    public AudioTrack getForLoading(int pos) {
-        return mAudioAdapter.getForLoading(pos);
     }
 }

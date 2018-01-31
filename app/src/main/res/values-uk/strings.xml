@@ -13,4 +13,17 @@
     <string name="all_songs">Всі пісні</string>
     <string name="recent">Недавні</string>
     <string name="smart_list">Smart вибір</string>
+
+    <string name="minute_1">Хвилину тому</string>
+    <string name="minute_5">П'ять хвилин тому</string>
+    <string name="minute_10">Десять хвилин тому</string>
+    <string name="minute_15">П'ятнадцять хвилин тому</string>
+    <string name="minute_30">Тридцять хвилин тому</string>
+    <string name="hour_1">Годину тому</string>
+    <string name="hour_2">Дві години тому</string>
+    <string name="hour_3">Три години тому</string>
+    <string name="hour_5">П'ять годин тому</string>
+    <string name="day_1">Вчора</string>
+    <string name="day_2">Два дні назад</string>
+    <string name="never">A long time ago in a galaxy far, far away...</string>
 </resources>

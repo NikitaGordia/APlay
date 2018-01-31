@@ -78,7 +78,6 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
 
     public void updateList(List<AudioTrack> list) {
         if (!toUpdate(list) || list.isEmpty()) return;
-        Log.d("mytg", "Here");
         reset();
         update(list);
         if (selected != -1) updateAndSetSelected(0);

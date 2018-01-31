@@ -109,7 +109,7 @@ public class MainFragment extends Fragment implements
             @Override
             public void onPageSelected(int position) {
                 currentList = position;
-                lists[position].update();
+                lists[position].onUpdate();
             }
 
             @Override
