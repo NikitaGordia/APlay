@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +12,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.Abstract.OnClickItem;
-import com.nikitagordia.aplay.Managers.AudioAdapter;
-import com.nikitagordia.aplay.Managers.FilesManager;
 import com.nikitagordia.aplay.Managers.MusicManager;
-import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 import com.nikitagordia.aplay.SearchActivity;
 
@@ -32,6 +26,12 @@ public class MainListFragment extends ListableFragment {
 
     private FloatingActionButton mSearchFab, mSettingsFab;
     private FloatingActionMenu mFloatingActionMenu;
+
+    private boolean isFirstLoad = true;
+
+    public MainListFragment() {
+        super();
+    }
 
     @Nullable
     @Override
@@ -64,5 +64,9 @@ public class MainListFragment extends ListableFragment {
     @Override
     public void update() {
         mAudioAdapter.updateList(MusicManager.get().getAudioTracks());
+        if (isFirstLoad) {
+            ((OnClickItem) getActivity()).onClick(0, this, false);
+            isFirstLoad = false;
+        }
     }
 }

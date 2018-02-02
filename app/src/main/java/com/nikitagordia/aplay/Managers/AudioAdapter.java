@@ -43,6 +43,7 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         if (pos >= mAudioTracks.size()) return null;
             else {
             mRecyclerView.scrollToPosition(pos);
+            updateAndSetSelected(pos);
             return getItem(pos);
         }
     }
@@ -187,7 +188,7 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         @Override
         public void onClick(View view) {
             updateAndSetSelected(mPosition);
-            mOnClickListener.onClick(mPosition, null);
+            mOnClickListener.onClick(mPosition, null, true);
         }
 
         private void setSelected(boolean selected) {

@@ -1,12 +1,8 @@
 package com.nikitagordia.aplay;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.nikitagordia.aplay.Abstract.FragmentContainerActivity;
 import com.nikitagordia.aplay.Abstract.ListableFragment;
@@ -27,8 +23,8 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
     }
 
     @Override
-    public void onClick(int pos, ListableFragment frag) {
-        mMainFragment.onClick(pos, frag);
+    public void onClick(int pos, ListableFragment frag, boolean startPlaying) {
+        mMainFragment.onClick(pos, frag, startPlaying);
     }
 
     @Override

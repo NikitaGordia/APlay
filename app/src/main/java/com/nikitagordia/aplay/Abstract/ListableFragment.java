@@ -45,8 +45,8 @@ public abstract class ListableFragment extends Fragment implements OnClickItem {
     public abstract void update();
 
     @Override
-    public void onClick(int pos, ListableFragment frag) {
-        ((OnClickItem) getActivity()).onClick(pos, this);
+    public void onClick(int pos, ListableFragment frag, boolean startPlaying) {
+        ((OnClickItem) getActivity()).onClick(pos, this, startPlaying);
     }
 
     public AudioTrack nextSong() {

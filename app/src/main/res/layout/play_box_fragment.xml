@@ -46,7 +46,6 @@
                         <TextView
                             android:layout_marginLeft="30dp"
                             android:id="@+id/tv_current_time"
-                            android:text="--:--"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -75,7 +74,6 @@
                         <TextView
                             android:layout_marginRight="30dp"
                             android:id="@+id/tv_duration"
-                            android:text="--:--"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 

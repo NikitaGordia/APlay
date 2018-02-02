@@ -1,12 +1,9 @@
 package com.nikitagordia.aplay.Fragments;
 
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -16,11 +13,9 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +28,6 @@ import android.widget.Toast;
 
 import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.Managers.DBManager;
-import com.nikitagordia.aplay.Managers.FilesManager;
 import com.nikitagordia.aplay.Managers.PagerAdapter;
 import com.nikitagordia.aplay.Managers.PairKeepManager;
 import com.nikitagordia.aplay.Managers.MusicManager;
@@ -42,7 +36,6 @@ import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by root on 20.12.17.
@@ -189,8 +182,6 @@ public class MainFragment extends Fragment implements
         return view;
     }
 
-
-
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         loadSong(mCurrentFragment.nextSong(), true);
@@ -213,8 +204,6 @@ public class MainFragment extends Fragment implements
         mHandler.postDelayed(mProgressUpdater, PROGRESS_UPDATE_DELAY);
     }
 
-
-
     private void loadSong(AudioTrack audioTrack, boolean startPlaying) {
         if (audioTrack == null) return;
 
@@ -227,18 +216,15 @@ public class MainFragment extends Fragment implements
             if (startPlaying) {
                 mMediaPlayer.prepare();
                 startPlaySong();
+                audioTrack.update();
+                DBManager.get(getActivity()).incAudio(audioTrack);
             } else mMediaPlayer.prepareAsync();
 
             MusicManager.get().setCurrentAudioUrl(audioTrack.getUrl());
-            audioTrack.update();
 
             updateLists();
 
             loadUIBar(audioTrack);
-
-            DBManager.get(getActivity()).incAudio(audioTrack);
-
-
 
         } catch (IOException e) {
             Toast.makeText(getContext(), getResources().getString(R.string.failed) + " :(", Toast.LENGTH_SHORT).show();
@@ -281,9 +267,9 @@ public class MainFragment extends Fragment implements
         stopPlaySong();
     }
 
-    public void onClick(int pos, ListableFragment frag) {
+    public void onClick(int pos, ListableFragment frag, boolean startPlaying) {
         mCurrentFragment = frag;
-        loadSong(frag.getForLoading(pos), true);
+        loadSong(frag.getForLoading(pos), startPlaying);
     }
 
     @Override
@@ -295,7 +281,7 @@ public class MainFragment extends Fragment implements
             int pos = lists[currentList].getPosByUrl(url);
             if (pos == -1) return;
             mCurrentFragment = lists[currentList];
-            loadSong(lists[currentList].getForLoading(pos), false);
+            loadSong(lists[currentList].getForLoading(pos), true);
         }
     }
 

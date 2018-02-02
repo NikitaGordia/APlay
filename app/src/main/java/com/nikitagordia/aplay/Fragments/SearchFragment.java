@@ -73,7 +73,7 @@ public class SearchFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAudioAdapter = new AudioAdapter(mRecyclerView, getContext(), new OnClickItem() {
             @Override
-            public void onClick(int pos, ListableFragment frag) {
+            public void onClick(int pos, ListableFragment frag, boolean startPlaying) {
                 Intent res = new Intent();
                 res.putExtra(EXTRA_RESULT_URL_SONG, mAudioAdapter.getItem(pos).getUrl());
                 getActivity().setResult(Activity.RESULT_OK, res);
