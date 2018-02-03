@@ -37,3 +37,4 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
 //TODO breaking sound...
 //TODO HeadSet unplug
 //TODO Notification head
+//TODO Optimization reverse URL

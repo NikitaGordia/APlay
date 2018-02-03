@@ -1,5 +1,7 @@
 package com.nikitagordia.aplay.Managers;
 
+import android.app.Activity;
+
 import com.nikitagordia.aplay.Models.AudioTrack;
 
 import java.util.ArrayList;
@@ -15,7 +17,8 @@ public class MusicManager {
 
     private List<AudioTrack> mAudioTracks;
 
-    private String currentAudioUrl = "";
+    private AudioTrack mCurrentTrack = new AudioTrack();
+    private boolean mCounted;
 
     public static MusicManager get() {
         if (mInstance == null) mInstance = new MusicManager();
@@ -37,12 +40,21 @@ public class MusicManager {
         return result;
     }
 
-    public String getCurrentAudioUrl() {
-        return currentAudioUrl;
+    public AudioTrack getCurrentTrack() {
+        return mCurrentTrack;
     }
 
-    public void setCurrentAudioUrl(String currentAudioUrl) {
-        this.currentAudioUrl = currentAudioUrl;
+    public void setCurrentTrack(AudioTrack currentTrack) {
+        mCurrentTrack = currentTrack;
+        mCounted = false;
+    }
+
+    public void count(Activity activity) {
+        if (!mCounted) {
+            mCurrentTrack.update();
+            DBManager.get(activity).incAudio(mCurrentTrack);
+            mCounted = true;
+        }
     }
 
     public void setList(List<AudioTrack> list) {

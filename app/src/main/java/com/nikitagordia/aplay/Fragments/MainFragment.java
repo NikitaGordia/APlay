@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.Managers.DBManager;
+import com.nikitagordia.aplay.Managers.HeadManager;
 import com.nikitagordia.aplay.Managers.PagerAdapter;
 import com.nikitagordia.aplay.Managers.PairKeepManager;
 import com.nikitagordia.aplay.Managers.MusicManager;
@@ -58,6 +59,7 @@ public class MainFragment extends Fragment implements
     private TabLayout mTabLayout;
     private FragmentPagerAdapter mPagerAdapter;
     private Handler mHandler = new Handler();
+    private HeadManager mHeadManager;
     private ListableFragment[] lists = {
             new MainListFragment(),
             new RecentListFragment(),
@@ -179,6 +181,8 @@ public class MainFragment extends Fragment implements
 
         mTabLayout.setupWithViewPager(mViewPager);
 
+        mHeadManager = new HeadManager(getActivity());
+
         return view;
     }
 
@@ -211,16 +215,13 @@ public class MainFragment extends Fragment implements
         mMediaPlayer.reset();
         try {
             mMediaPlayer.setDataSource(audioTrack.getUrl());
+            MusicManager.get().setCurrentTrack(audioTrack);
 
             mSongWasLoaded = true;
             if (startPlaying) {
                 mMediaPlayer.prepare();
                 startPlaySong();
-                audioTrack.update();
-                DBManager.get(getActivity()).incAudio(audioTrack);
             } else mMediaPlayer.prepareAsync();
-
-            MusicManager.get().setCurrentAudioUrl(audioTrack.getUrl());
 
             updateLists();
 
@@ -238,17 +239,18 @@ public class MainFragment extends Fragment implements
             if (lists[i] != mCurrentFragment) lists[i].onUpdate();
     }
 
+    private void startPlaySong() {
+        if (!mSongWasLoaded) return;
+        MusicManager.get().count(getActivity());
+        mPlay.setImageResource(R.drawable.pause);
+        mMediaPlayer.start();
+        mHandler.postDelayed(mProgressUpdater, PROGRESS_UPDATE_DELAY);
+    }
+
     private void stopPlaySong() {
         if (!mSongWasLoaded) return;
         mPlay.setImageResource(R.drawable.play);
         mMediaPlayer.pause();
-    }
-
-    private void startPlaySong() {
-        if (!mSongWasLoaded) return;
-        mPlay.setImageResource(R.drawable.pause);
-        mMediaPlayer.start();
-        mHandler.postDelayed(mProgressUpdater, PROGRESS_UPDATE_DELAY);
     }
 
     private void loadUIBar(AudioTrack audioTrack) {

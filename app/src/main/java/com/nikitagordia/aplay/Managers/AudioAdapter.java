@@ -77,8 +77,8 @@ public class AudioAdapter extends RecyclerView.Adapter<RecyclerHolder> {
     }
 
     public void updateSelection() {
-        if (selected != -1 && getItem(selected).getName().equals(MusicManager.get().getCurrentAudioUrl())) return;
-        updateAndSetSelected(getPosByUrl(MusicManager.get().getCurrentAudioUrl()));
+        if (selected != -1 && getItem(selected).getName().equals(MusicManager.get().getCurrentTrack().getUrl())) return;
+        updateAndSetSelected(getPosByUrl(MusicManager.get().getCurrentTrack().getUrl()));
     }
 
     public void updateList(List<AudioTrack> list) {

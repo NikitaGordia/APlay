@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tool="http://schemas.android.com/tools"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/gray_less"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_marginLeft="30dp"
+            android:id="@+id/tv_current_time"
+            android:text="00:34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/ib_prev"
+            android:src="@drawable/prev"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="0dp"
+            android:background="@color/gray_less"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/ib_play"
+            android:src="@drawable/play"
+            android:layout_margin="4dp"
+            android:background="@color/gray_less"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/ib_next"
+            android:src="@drawable/next"
+            android:background="@color/gray_less"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginRight="30dp"
+            android:id="@+id/tv_duration"
+            android:text="04:53"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>
