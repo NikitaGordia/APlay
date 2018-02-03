@@ -11,14 +11,14 @@ import com.nikitagordia.aplay.Fragments.MainFragment;
 
 public class MainActivity extends FragmentContainerActivity implements OnClickItem {
 
-    private MainFragment mMainFragment;
+    private static MainFragment mMainFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_fragment_container);
 
-        mMainFragment = new MainFragment();
+        mMainFragment = MainFragment.getInstance();
         putFragment(R.id.fragment_container, mMainFragment);
     }
 

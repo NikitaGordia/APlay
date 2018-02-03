@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nikitagordia.aplay.Abstract.ListableFragment;
+import com.nikitagordia.aplay.MainActivity;
 import com.nikitagordia.aplay.Managers.DBManager;
 import com.nikitagordia.aplay.Managers.HeadManager;
 import com.nikitagordia.aplay.Managers.PagerAdapter;
@@ -48,6 +50,8 @@ public class MainFragment extends Fragment implements
 
     private static final int PROGRESS_UPDATE_DELAY = 100;
 
+    private static final MainFragment mInstance = new MainFragment();
+
     private TextView mTrackName, mTime, mDuration;
     private ImageButton mNext, mPlay, mPrev;
     private SeekBar mPosition;
@@ -59,7 +63,6 @@ public class MainFragment extends Fragment implements
     private TabLayout mTabLayout;
     private FragmentPagerAdapter mPagerAdapter;
     private Handler mHandler = new Handler();
-    private HeadManager mHeadManager;
     private ListableFragment[] lists = {
             new MainListFragment(),
             new RecentListFragment(),
@@ -72,6 +75,10 @@ public class MainFragment extends Fragment implements
     private boolean hasFinished;
     private PairKeepManager pair1 = new PairKeepManager(),
             pair2 = new PairKeepManager();
+
+    public static MainFragment getInstance() {
+        return mInstance;
+    }
 
     @Nullable
     @Override
@@ -120,8 +127,7 @@ public class MainFragment extends Fragment implements
         mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mMediaPlayer.isPlaying()) stopPlaySong();
-                else startPlaySong();
+                switchMode();
             }
         });
 
@@ -181,7 +187,7 @@ public class MainFragment extends Fragment implements
 
         mTabLayout.setupWithViewPager(mViewPager);
 
-        mHeadManager = new HeadManager(getActivity());
+        updateHead(false);
 
         return view;
     }
@@ -227,11 +233,18 @@ public class MainFragment extends Fragment implements
 
             loadUIBar(audioTrack);
 
+            updateHead(startPlaying);
+
         } catch (IOException e) {
             Toast.makeText(getContext(), getResources().getString(R.string.failed) + " :(", Toast.LENGTH_SHORT).show();
             mSongWasLoaded = false;
             return;
         }
+    }
+
+    private void switchMode() {
+        if (mMediaPlayer.isPlaying()) stopPlaySong();
+        else startPlaySong();
     }
 
     private void updateLists() {
@@ -245,12 +258,16 @@ public class MainFragment extends Fragment implements
         mPlay.setImageResource(R.drawable.pause);
         mMediaPlayer.start();
         mHandler.postDelayed(mProgressUpdater, PROGRESS_UPDATE_DELAY);
+
+        updateHead(true);
     }
 
     private void stopPlaySong() {
         if (!mSongWasLoaded) return;
         mPlay.setImageResource(R.drawable.play);
         mMediaPlayer.pause();
+
+        updateHead(false);
     }
 
     private void loadUIBar(AudioTrack audioTrack) {
@@ -267,6 +284,20 @@ public class MainFragment extends Fragment implements
         mPosition.setProgress(0);
         mTime.setText("--:--");
         stopPlaySong();
+    }
+
+    public void onHeadMessage(String action) {
+        switch (action) {
+            case HeadManager.BROADCAST_PLAY :
+                switchMode();
+                break;
+            case HeadManager.BROADCAST_NEXT :
+                loadSong(mCurrentFragment.nextSong(), true);
+                break;
+            case HeadManager.BROADCAST_PREV :
+                loadSong(mCurrentFragment.prevSong(), true);
+                break;
+        }
     }
 
     public void onClick(int pos, ListableFragment frag, boolean startPlaying) {
@@ -289,10 +320,13 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onDestroy() {
-
         super.onDestroy();
         mMediaPlayer.release();
         hasFinished = true;
+    }
+
+    private void updateHead(boolean isPlaying) {
+        HeadManager.post(getActivity(), isPlaying);
     }
 
     private Runnable mProgressUpdater = new Runnable() {

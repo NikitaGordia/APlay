@@ -14,42 +14,37 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:layout_marginLeft="30dp"
-            android:id="@+id/tv_current_time"
-            android:text="00:34"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="3"
+            android:background="@drawable/box"
+            android:padding="3dp"
+            android:textAlignment="center"
+            android:textSize="13sp"
+            android:textStyle="bold" />
         <ImageButton
+            android:layout_weight="0"
             android:id="@+id/ib_prev"
             android:src="@drawable/prev"
             android:layout_width="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="0dp"
             android:background="@color/gray_less"
             android:layout_height="wrap_content" />
 
         <ImageButton
+            android:layout_weight="0"
             android:id="@+id/ib_play"
             android:src="@drawable/play"
-            android:layout_margin="4dp"
             android:background="@color/gray_less"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageButton
+            android:layout_weight="0"
             android:id="@+id/ib_next"
             android:src="@drawable/next"
             android:background="@color/gray_less"
-            android:layout_marginRight="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_marginRight="30dp"
-            android:id="@+id/tv_duration"
-            android:text="04:53"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

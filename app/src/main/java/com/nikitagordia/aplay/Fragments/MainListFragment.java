@@ -64,7 +64,7 @@ public class MainListFragment extends ListableFragment {
     @Override
     public void update() {
         mAudioAdapter.updateList(MusicManager.get().getAudioTracks());
-        if (isFirstLoad) {
+        if (isFirstLoad && !mAudioAdapter.getAudioTracks().isEmpty()) {
             ((OnClickItem) getActivity()).onClick(0, this, false);
             isFirstLoad = false;
         }
