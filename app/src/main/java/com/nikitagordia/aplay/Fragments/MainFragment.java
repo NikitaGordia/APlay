@@ -255,7 +255,7 @@ public class MainFragment extends Fragment implements
     }
 
     private void startPlaySong() {
-        if (!mSongWasLoaded) return;
+        if (!mSongWasLoaded || mMediaPlayer == null) return;
         MusicManager.get().count(getActivity());
         mPlay.setImageResource(R.drawable.pause);
         mMediaPlayer.start();
@@ -264,8 +264,8 @@ public class MainFragment extends Fragment implements
         updateHead(true);
     }
 
-    private void stopPlaySong() {
-        if (!mSongWasLoaded) return;
+    public void stopPlaySong() {
+        if (!mSongWasLoaded || mMediaPlayer == null) return;
         mPlay.setImageResource(R.drawable.play);
         mMediaPlayer.pause();
 

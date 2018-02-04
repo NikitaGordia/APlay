@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.nikitagordia.aplay.Fragments.MainFragment;
+
 /**
  * Created by nikitagordia on 2/3/18.
  */

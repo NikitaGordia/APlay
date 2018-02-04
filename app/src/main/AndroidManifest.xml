@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nikitagordia.aplay">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -11,31 +12,36 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppThemeNoBar"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".SearchActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoBar" />
+        <activity
+            android:name=".SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <receiver android:name=".Managers.HeadManager">
+
+        <receiver android:name=".Managers.HeadManager"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.nikitagordia.aplay.Managers.HeadManager.PLAY"/>
-                <action android:name="com.nikitagordia.aplay.Managers.HeadManager.NEXT"/>
-                <action android:name="com.nikitagordia.aplay.Managers.HeadManager.PREV"/>
+                <action android:name="com.nikitagordia.aplay.Managers.HeadManager.PLAY" />
+                <action android:name="com.nikitagordia.aplay.Managers.HeadManager.NEXT" />
+                <action android:name="com.nikitagordia.aplay.Managers.HeadManager.PREV" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".Managers.MainService"
-            android:stopWithTask="false"/>
+        <service
+            android:name=".Managers.MainService"
+            android:stopWithTask="false" />
 
     </application>
 

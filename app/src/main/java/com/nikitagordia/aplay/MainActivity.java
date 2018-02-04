@@ -3,6 +3,7 @@ package com.nikitagordia.aplay;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,11 +13,13 @@ import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Fragments.MainFragment;
 import com.nikitagordia.aplay.Managers.HeadManager;
+import com.nikitagordia.aplay.Managers.HeadSetBroadcastReceiver;
 import com.nikitagordia.aplay.Managers.MainService;
 
 public class MainActivity extends FragmentContainerActivity implements OnClickItem {
 
     private static MainFragment mMainFragment;
+    private HeadSetBroadcastReceiver br;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
         putFragment(R.id.fragment_container, mMainFragment);
 
         startService(new Intent(this, MainService.class));
+        br = new HeadSetBroadcastReceiver();
+        registerReceiver(br, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
     }
 
     @Override
@@ -42,13 +47,10 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(br);
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(HeadManager.NOTIFICATION_HEAD_ID);
         super.onDestroy();
     }
 }
 
-
-//TODO
-//TODO HeadSet unplug
-//TODO Notification head
 //TODO Optimization reverse URL
