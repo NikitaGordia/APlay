@@ -20,23 +20,23 @@
 
         <activity android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
         <receiver android:name=".Managers.HeadManager">
             <intent-filter>
-
                 <action android:name="com.nikitagordia.aplay.Managers.HeadManager.PLAY"/>
                 <action android:name="com.nikitagordia.aplay.Managers.HeadManager.NEXT"/>
                 <action android:name="com.nikitagordia.aplay.Managers.HeadManager.PREV"/>
-
             </intent-filter>
         </receiver>
+
+        <service android:name=".Managers.MainService"
+            android:stopWithTask="false"/>
+
     </application>
 
 </manifest>

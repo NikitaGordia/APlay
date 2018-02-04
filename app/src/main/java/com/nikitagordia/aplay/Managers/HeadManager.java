@@ -1,6 +1,7 @@
 package com.nikitagordia.aplay.Managers;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -19,6 +20,8 @@ import com.nikitagordia.aplay.R;
  */
 
 public class HeadManager extends BroadcastReceiver {
+
+    public static final int NOTIFICATION_HEAD_ID = 1;
 
     public static final String BROADCAST_PLAY = "com.nikitagordia.aplay.Managers.HeadManager.PLAY";
     public static final String BROADCAST_NEXT = "com.nikitagordia.aplay.Managers.HeadManager.NEXT";
@@ -45,9 +48,10 @@ public class HeadManager extends BroadcastReceiver {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_head)
                 .setContent(remoteViews);
 
-        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(1, builder.build());
+        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_HEAD_ID, builder.build());
     }
 }

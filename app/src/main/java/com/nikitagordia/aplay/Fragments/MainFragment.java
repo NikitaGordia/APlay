@@ -218,6 +218,8 @@ public class MainFragment extends Fragment implements
         if (audioTrack == null) return;
 
         resetUIBar();
+        mMediaPlayer.pause();
+        mMediaPlayer.stop();
         mMediaPlayer.reset();
         try {
             mMediaPlayer.setDataSource(audioTrack.getUrl());

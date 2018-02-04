@@ -1,13 +1,18 @@
 package com.nikitagordia.aplay;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.nikitagordia.aplay.Abstract.FragmentContainerActivity;
 import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Fragments.MainFragment;
+import com.nikitagordia.aplay.Managers.HeadManager;
+import com.nikitagordia.aplay.Managers.MainService;
 
 public class MainActivity extends FragmentContainerActivity implements OnClickItem {
 
@@ -20,6 +25,8 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
 
         mMainFragment = MainFragment.getInstance();
         putFragment(R.id.fragment_container, mMainFragment);
+
+        startService(new Intent(this, MainService.class));
     }
 
     @Override
@@ -32,9 +39,16 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
         super.onActivityResult(requestCode, resultCode, data);
         mMainFragment.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    protected void onDestroy() {
+        ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(HeadManager.NOTIFICATION_HEAD_ID);
+        super.onDestroy();
+    }
 }
 
-//TODO breaking sound...
+
+//TODO
 //TODO HeadSet unplug
 //TODO Notification head
 //TODO Optimization reverse URL

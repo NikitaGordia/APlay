@@ -54,7 +54,13 @@ public class SplashActivity extends FragmentContainerActivity {
     }
 
     private void loading() {
-        List<AudioTrack> list = FilesManager.getAudioFiles(this);
+        List<AudioTrack> list;
+        try {
+            list = FilesManager.getAudioFiles(this);
+        } catch (Exception e) {
+            Toast.makeText(this, getResources().getString(R.string.perm_denied), Toast.LENGTH_SHORT);
+            return;
+        }
         MusicManager.get().setList(list);
         DBManager.get(this).updateAudioTracks(list);
         startActivity(new Intent(this, MainActivity.class));
