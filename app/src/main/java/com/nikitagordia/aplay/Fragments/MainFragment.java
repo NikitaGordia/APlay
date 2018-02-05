@@ -49,7 +49,7 @@ public class MainFragment extends Fragment implements
         MediaPlayer.OnCompletionListener,
         SeekBar.OnSeekBarChangeListener {
 
-    private static final int PROGRESS_UPDATE_DELAY = 100;
+    private static final int PROGRESS_UPDATE_DELAY = 700;
 
     private static final MainFragment mInstance = new MainFragment();
 
@@ -350,11 +350,12 @@ public class MainFragment extends Fragment implements
     }
 
     private Runnable mProgressUpdater = new Runnable() {
+        private int tm;
         @Override
         public void run() {
             if (hasFinished) return;
             if (mMediaPlayer.isPlaying()) {
-                int tm = mMediaPlayer.getCurrentPosition();
+                tm = mMediaPlayer.getCurrentPosition();
                 mPosition.setProgress(tm);
                 mTime.setText(UtilsManager.getTimeFormat(tm));
             }
