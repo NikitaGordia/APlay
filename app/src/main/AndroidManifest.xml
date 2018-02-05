@@ -12,10 +12,15 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:label="@string/settings" android:name=".SettingsActivity" />
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBar" />
+
+
         <activity
             android:name=".SearchActivity"
             android:screenOrientation="portrait" />

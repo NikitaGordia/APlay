@@ -26,4 +26,6 @@
     <string name="day_1">Yesterday</string>
     <string name="day_2">Two days ago</string>
     <string name="never">A long time ago in a galaxy far, far away...</string>
+
+    <string name="settings_volume">Volume</string>
 </resources>

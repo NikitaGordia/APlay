@@ -15,6 +15,7 @@ import com.nikitagordia.aplay.Abstract.OnClickItem;
 import com.nikitagordia.aplay.Managers.MusicManager;
 import com.nikitagordia.aplay.R;
 import com.nikitagordia.aplay.SearchActivity;
+import com.nikitagordia.aplay.SettingsActivity;
 
 /**
  * Created by root on 1/21/18.
@@ -54,7 +55,8 @@ public class MainListFragment extends ListableFragment {
         mSettingsFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                mFloatingActionMenu.close(true);
+                getActivity().startActivity(new Intent(getActivity(), SettingsActivity.class));
             }
         });
 

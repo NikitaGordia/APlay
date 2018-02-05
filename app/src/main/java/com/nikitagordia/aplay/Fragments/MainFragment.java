@@ -31,6 +31,7 @@ import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.MainActivity;
 import com.nikitagordia.aplay.Managers.DBManager;
 import com.nikitagordia.aplay.Managers.HeadManager;
+import com.nikitagordia.aplay.Managers.MyPreferencesManager;
 import com.nikitagordia.aplay.Managers.PagerAdapter;
 import com.nikitagordia.aplay.Managers.PairKeepManager;
 import com.nikitagordia.aplay.Managers.MusicManager;
@@ -100,6 +101,8 @@ public class MainFragment extends Fragment implements
         final CardView playBox = (CardView) view.findViewById(R.id.play_box);
 
         mMediaPlayer = new MediaPlayer();
+        float volume = getVolume();
+        mMediaPlayer.setVolume(volume, volume);
 
         mPagerAdapter = new PagerAdapter(getActivity(), lists);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -318,6 +321,15 @@ public class MainFragment extends Fragment implements
             mCurrentFragment = lists[currentList];
             loadSong(lists[currentList].getForLoading(pos), true);
         }
+    }
+
+    public float getVolume() {
+        return MyPreferencesManager.getVolume(getActivity());
+    }
+
+    public void setVolume(float volume, boolean save) {
+        if (save) MyPreferencesManager.setVolume(getActivity(), volume);
+        mMediaPlayer.setVolume(volume, volume);
     }
 
     @Override
