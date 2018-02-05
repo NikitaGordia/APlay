@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.nikitagordia.aplay.Abstract.ListableFragment;
 import com.nikitagordia.aplay.Managers.MusicManager;
+import com.nikitagordia.aplay.Managers.MyPreferencesManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
 import com.nikitagordia.aplay.R;
 
@@ -42,11 +43,16 @@ public class SmartListFragment extends ListableFragment {
         List<AudioTrack> list = new ArrayList<>();
         list.addAll(MusicManager.get().getAudioTracks());
 
-        Collections.sort(list, new Comparator<AudioTrack>() {
+        Collections.sort(list, MyPreferencesManager.getRSL(getActivity().getApplicationContext()) ? new Comparator<AudioTrack>() {
             @Override
             public int compare(AudioTrack o1, AudioTrack o2) {
-                return o1.getCount() - o2.getCount();
+                return (int)(o2.getDate() - o1.getDate());
             }
+        } : new Comparator<AudioTrack>() {
+                    @Override
+                    public int compare(AudioTrack o1, AudioTrack o2) {
+                        return (int)(o1.getDate() - o2.getDate());
+                    }
         });
 
         mAudioAdapter.updateList(list);

@@ -17,6 +17,14 @@ public class MyPreferencesManager {
     public static final String REVERSE_SMART_LIST_PREF = "reversesmartlist";
     public static final String VOLUME_LVL = "volumelvl";
 
+    public static boolean getNotification(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(NOTIFICATION_CONTROLLER_PREF, true);
+    }
+
+    public static boolean getRSL(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(REVERSE_SMART_LIST_PREF, false);
+    }
+
     public static String getLastQuery(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_LAST_QUERY_PREF, "");
     }

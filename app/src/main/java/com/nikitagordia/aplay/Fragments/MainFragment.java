@@ -245,6 +245,10 @@ public class MainFragment extends Fragment implements
             if (lists[i] != mCurrentFragment) lists[i].onUpdate();
     }
 
+    public void updateSmartList() {
+        lists[2].onUpdate();
+    }
+
     private void startPlaySong() {
         if (!mSongWasLoaded || mMediaPlayer == null) return;
         MusicManager.get().count(getActivity());
@@ -326,6 +330,10 @@ public class MainFragment extends Fragment implements
 
     private void updateHead(boolean isPlaying) {
         HeadManager.post(getActivity(), isPlaying);
+    }
+
+    public void updateHead() {
+        updateHead(mMediaPlayer.isPlaying());
     }
 
     private Runnable mProgressUpdater = new Runnable() {

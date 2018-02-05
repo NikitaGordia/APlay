@@ -35,6 +35,7 @@ public class HeadManager extends BroadcastReceiver {
     }
 
     public static void post(Context context, boolean isPlaying) {
+        if (!MyPreferencesManager.getNotification(context)) return;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.head);
         remoteViews.setOnClickPendingIntent(R.id.ib_play, PendingIntent.getBroadcast(context, 0, new Intent(BROADCAST_PLAY), 0));
         remoteViews.setOnClickPendingIntent(R.id.ib_next, PendingIntent.getBroadcast(context, 0, new Intent(BROADCAST_NEXT), 0));

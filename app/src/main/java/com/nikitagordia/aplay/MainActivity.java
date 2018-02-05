@@ -35,6 +35,11 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onClick(int pos, ListableFragment frag, boolean startPlaying) {
         mMainFragment.onClick(pos, frag, startPlaying);
     }
@@ -47,9 +52,9 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         unregisterReceiver(br);
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(HeadManager.NOTIFICATION_HEAD_ID);
-        super.onDestroy();
     }
 }
 

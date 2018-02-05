@@ -1,5 +1,7 @@
 package com.nikitagordia.aplay.Fragments;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.nikitagordia.aplay.Managers.DBManager;
+import com.nikitagordia.aplay.Managers.HeadManager;
 import com.nikitagordia.aplay.Managers.MusicManager;
 import com.nikitagordia.aplay.Managers.MyPreferencesManager;
 import com.nikitagordia.aplay.Models.AudioTrack;
@@ -37,6 +40,16 @@ public class SettingsPreferencesFragment extends PreferenceFragmentCompat {
             for (AudioTrack track : MusicManager.get().getAudioTracks()) track.clear();
             mMainFragment.updateAllLists();
             Toast.makeText(getContext(), "History was cleaned", Toast.LENGTH_SHORT).show();
+        } else
+        if (preference.getKey().equals(MyPreferencesManager.NOTIFICATION_CONTROLLER_PREF)) {
+            if (!MyPreferencesManager.getNotification(getContext())) {
+                ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(HeadManager.NOTIFICATION_HEAD_ID);
+            } else {
+                mMainFragment.updateHead();
+            }
+        } else
+        if (preference.getKey().equals(MyPreferencesManager.REVERSE_SMART_LIST_PREF)) {
+            mMainFragment.updateSmartList();
         }
         return super.onPreferenceTreeClick(preference);
     }
