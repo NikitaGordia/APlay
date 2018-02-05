@@ -11,6 +11,7 @@ public class HeadSetBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!MyPreferencesManager.getPlug(context)) return;
         MainFragment frag = MainFragment.getInstance();
         if (frag != null) frag.stopPlaySong();
     }

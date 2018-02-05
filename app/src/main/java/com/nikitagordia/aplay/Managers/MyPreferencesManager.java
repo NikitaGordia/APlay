@@ -25,6 +25,10 @@ public class MyPreferencesManager {
         return PreferenceManager.getDefaultSharedPreferences(context).getFloat(VOLUME_LVL, 0.5f);
     }
 
+    public static boolean getPlug(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PLUG_UNPLUG_PREF, true);
+    }
+
     public static void setVolume(Context context, float volume) {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
