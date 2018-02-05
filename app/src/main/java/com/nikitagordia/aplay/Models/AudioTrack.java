@@ -4,6 +4,7 @@ import android.media.AudioManager;
 
 import com.nikitagordia.aplay.Fragments.RecentListFragment;
 
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -21,7 +22,7 @@ public class AudioTrack {
         mAlbum = album;
         mArtist = artist;
         mDuration = duration;
-        mUrl = url;
+        mUrl = new StringBuilder(url).reverse().toString();
         mDate = 0;
         mCount = 0;
     }
@@ -99,7 +100,11 @@ public class AudioTrack {
         return mUrl;
     }
 
+    public String getUrlForLoading() {
+        return new StringBuilder(mUrl).reverse().toString();
+    }
+
     public void setUrl(String url) {
-        mUrl = url;
+        if (url.equals(RecentListFragment.DELIMITER)) mUrl = url; else mUrl = new StringBuilder(url).reverse().toString();
     }
 }

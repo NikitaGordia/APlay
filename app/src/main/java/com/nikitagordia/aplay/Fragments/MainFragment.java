@@ -215,7 +215,7 @@ public class MainFragment extends Fragment implements
         mMediaPlayer.stop();
         mMediaPlayer.reset();
         try {
-            mMediaPlayer.setDataSource(audioTrack.getUrl());
+            mMediaPlayer.setDataSource(audioTrack.getUrlForLoading());
             MusicManager.get().setCurrentTrack(audioTrack);
 
             mSongWasLoaded = true;
