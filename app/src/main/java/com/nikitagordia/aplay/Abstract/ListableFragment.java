@@ -33,10 +33,15 @@ public abstract class ListableFragment extends Fragment implements OnClickItem {
         mAudioAdapter = new AudioAdapter(mRecyclerView, getContext(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAudioAdapter);
-
         update();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAudioAdapter = null;
+        mRecyclerView = null;
+    }
 
     public void onUpdate() {
         if (mAudioAdapter == null || MusicManager.get().getAudioTracks() == null) return;

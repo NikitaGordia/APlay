@@ -73,8 +73,7 @@ public class MainFragment extends Fragment implements
     private boolean mSongWasLoaded;
     private ListableFragment mCurrentFragment;
     private boolean hasFinished;
-    private PairKeepManager pair1 = new PairKeepManager(),
-            pair2 = new PairKeepManager();
+    private PairKeepManager pair1, pair2;
 
     public static MainFragment getInstance() {
         return mInstance;
@@ -98,6 +97,10 @@ public class MainFragment extends Fragment implements
         mViewPager = (ViewPager) view.findViewById(R.id.lists_container);
         mNestedScrollView = (NestedScrollView) view.findViewById(R.id.bottom_sheet);
         final CardView playBox = (CardView) view.findViewById(R.id.play_box);
+        pair1 = new PairKeepManager();
+        pair2 = new PairKeepManager();
+
+        MusicManager.get().setCurrentTrack(AudioTrack.createEmptyTrack());
 
         mMediaPlayer = new MediaPlayer();
         float volume = getVolume();
@@ -180,6 +183,7 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+        if (MusicManager.get().getCurrentTrack().isEmpty()) return;
         loadSong(mCurrentFragment.nextSong(), true);
     }
 
@@ -196,7 +200,10 @@ public class MainFragment extends Fragment implements
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         mHandler.removeCallbacks(mProgressUpdater);
+        boolean isPlaying = mMediaPlayer.isPlaying();
+        if (isPlaying) mMediaPlayer.pause();
         mMediaPlayer.seekTo(mPosition.getProgress());
+        if (isPlaying) mMediaPlayer.start();
         mHandler.postDelayed(mProgressUpdater, PROGRESS_UPDATE_DELAY);
     }
 
@@ -297,6 +304,19 @@ public class MainFragment extends Fragment implements
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mMediaPlayer.isPlaying()) {
+            mMediaPlayer.pause();
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            hasFinished = true;
+        }
+        mMediaPlayer = null;
+        pair1 = pair2 = null;
+    }
+
     public void onClick(int pos, ListableFragment frag, boolean startPlaying) {
         mCurrentFragment = frag;
         loadSong(frag.getForLoading(pos), startPlaying);
@@ -319,13 +339,6 @@ public class MainFragment extends Fragment implements
     public void setVolume(float volume, boolean save) {
         if (save) MyPreferencesManager.setVolume(getActivity(), volume);
         mMediaPlayer.setVolume(volume, volume);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMediaPlayer.release();
-        hasFinished = true;
     }
 
     private void updateHead(boolean isPlaying) {

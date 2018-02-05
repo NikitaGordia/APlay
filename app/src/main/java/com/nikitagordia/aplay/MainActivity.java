@@ -35,11 +35,6 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onClick(int pos, ListableFragment frag, boolean startPlaying) {
         mMainFragment.onClick(pos, frag, startPlaying);
     }

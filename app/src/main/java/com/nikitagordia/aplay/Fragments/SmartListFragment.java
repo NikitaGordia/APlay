@@ -1,5 +1,6 @@
 package com.nikitagordia.aplay.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,8 +35,57 @@ public class SmartListFragment extends ListableFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.smart_list_fragment, container, false);
         super.onCreateView(view);
-
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     @Override
@@ -43,7 +93,7 @@ public class SmartListFragment extends ListableFragment {
         List<AudioTrack> list = new ArrayList<>();
         list.addAll(MusicManager.get().getAudioTracks());
 
-        Collections.sort(list, MyPreferencesManager.getRSL(getActivity().getApplicationContext()) ? new Comparator<AudioTrack>() {
+        Collections.sort(list, MyPreferencesManager.getRSL(getContext()) ? new Comparator<AudioTrack>() {
             @Override
             public int compare(AudioTrack o1, AudioTrack o2) {
                 return (int)(o2.getDate() - o1.getDate());

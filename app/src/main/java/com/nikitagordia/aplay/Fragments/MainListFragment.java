@@ -71,4 +71,10 @@ public class MainListFragment extends ListableFragment {
             isFirstLoad = false;
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isFirstLoad = true;
+    }
 }

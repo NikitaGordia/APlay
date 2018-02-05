@@ -26,6 +26,12 @@ public class AudioTrack {
         mCount = 0;
     }
 
+    public static AudioTrack createEmptyTrack() {
+        AudioTrack track = new AudioTrack();
+        track.setDate(-1);
+        return track;
+    }
+
     public AudioTrack() {
         this("", "", "", 0, "");
     }
@@ -50,6 +56,8 @@ public class AudioTrack {
         if (isDelimiter() && track.isDelimiter()) return mDate == track.getDate();
         return track.getUrl().equals(mUrl);
     }
+
+    public boolean isEmpty() { return mDate == -1; }
 
     public boolean isDelimiter() {
         return mUrl.equals(RecentListFragment.DELIMITER);

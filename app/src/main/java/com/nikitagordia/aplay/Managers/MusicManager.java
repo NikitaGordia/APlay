@@ -17,7 +17,7 @@ public class MusicManager {
 
     private List<AudioTrack> mAudioTracks;
 
-    private AudioTrack mCurrentTrack = new AudioTrack();
+    private AudioTrack mCurrentTrack;
     private boolean mCounted;
 
     public static MusicManager get() {
