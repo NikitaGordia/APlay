@@ -71,7 +71,6 @@ public class MainFragment extends Fragment implements
     };
 
     private boolean mSongWasLoaded;
-    private int currentList;
     private ListableFragment mCurrentFragment;
     private boolean hasFinished;
     private PairKeepManager pair1 = new PairKeepManager(),
@@ -105,22 +104,6 @@ public class MainFragment extends Fragment implements
         mMediaPlayer.setVolume(volume, volume);
 
         mPagerAdapter = new PagerAdapter(getActivity(), lists);
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                currentList = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOffscreenPageLimit(lists.length);
 
@@ -234,7 +217,7 @@ public class MainFragment extends Fragment implements
                 startPlaySong();
             } else mMediaPlayer.prepareAsync();
 
-            updateLists();
+            updateListsBesidesCurrent();
 
             loadUIBar(audioTrack);
 
@@ -252,7 +235,12 @@ public class MainFragment extends Fragment implements
         else startPlaySong();
     }
 
-    private void updateLists() {
+    public void updateAllLists() {
+        for (int i = 0; i < lists.length; i++)
+            lists[i].onUpdate();
+    }
+
+    private void updateListsBesidesCurrent() {
         for (int i = 0; i < lists.length; i++)
             if (lists[i] != mCurrentFragment) lists[i].onUpdate();
     }
@@ -316,10 +304,7 @@ public class MainFragment extends Fragment implements
         if (requestCode == MainListFragment.CODE_ON_SEARCH_RESULT && resultCode == Activity.RESULT_OK) {
             String url = data.getStringExtra(SearchFragment.EXTRA_RESULT_URL_SONG);
             if (url == null) return;
-            int pos = lists[currentList].getPosByUrl(url);
-            if (pos == -1) return;
-            mCurrentFragment = lists[currentList];
-            loadSong(lists[currentList].getForLoading(pos), true);
+            loadSong(mCurrentFragment.getForLoading(mCurrentFragment.getPosByUrl(url)), true);
         }
     }
 

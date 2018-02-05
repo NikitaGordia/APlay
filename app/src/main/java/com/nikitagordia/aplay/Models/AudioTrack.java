@@ -35,6 +35,11 @@ public class AudioTrack {
         mDate = (new Date()).getTime();
     }
 
+    public void clear() {
+        mDate = 0;
+        mCount = 0;
+    }
+
     private String removeMp3(String str) {
         if (str.endsWith(".mp3") || str.endsWith(".MP3"))
             return str.substring(0, str.length() - 4);
