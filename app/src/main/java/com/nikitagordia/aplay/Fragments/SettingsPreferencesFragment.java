@@ -39,7 +39,7 @@ public class SettingsPreferencesFragment extends PreferenceFragmentCompat {
             DBManager.get(getContext()).clearDB();
             for (AudioTrack track : MusicManager.get().getAudioTracks()) track.clear();
             mMainFragment.updateAllLists();
-            Toast.makeText(getContext(), "History was cleaned", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.history_cleaned), Toast.LENGTH_SHORT).show();
         } else
         if (preference.getKey().equals(MyPreferencesManager.NOTIFICATION_CONTROLLER_PREF)) {
             if (!MyPreferencesManager.getNotification(getContext())) {

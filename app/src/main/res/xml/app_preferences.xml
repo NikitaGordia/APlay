@@ -2,35 +2,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.v7.preference.PreferenceCategory
-        android:title="System">
+        android:title="@string/system">
 
         <android.support.v7.preference.SwitchPreferenceCompat
             android:key="plugunplug"
-            android:title="Plug/Unplug reaction"
-            android:summary="Player will stop when you plug or unplug headset"
+            android:title="@string/plug_pref"
+            android:summary="@string/plug_pref_sum"
             android:defaultValue="true" />
 
         <android.support.v7.preference.SwitchPreferenceCompat
             android:key="notification"
-            android:title="Enable notification controller"
-            android:summary="Show notification with music-controll buttons"
+            android:title="@string/enable_notif"
+            android:summary="@string/enable_notif_sum"
             android:defaultValue="true" />
 
     </android.support.v7.preference.PreferenceCategory>
 
 
     <android.support.v7.preference.PreferenceCategory
-        android:title="Data">
+        android:title="@string/data">
 
         <android.support.v7.preference.Preference
             android:key="clearhistory"
-            android:title="Clear history"
-            android:summary="Clear all information about listened tracks" />
+            android:title="@string/clear_history"
+            android:summary="@string/clear_history_sum" />
 
         <android.support.v7.preference.SwitchPreferenceCompat
             android:key="reversesmartlist"
-            android:title="Reverse smart-list"
-            android:summary="Smart-list shows less used tracks"
+            android:title="@string/reverse_sl"
+            android:summary="@string/reverse_sl_sum"
             android:defaultValue="false" />
 
     </android.support.v7.preference.PreferenceCategory>

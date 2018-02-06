@@ -49,7 +49,7 @@ public class SettingsActivity extends FragmentContainerActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mMainFragment.setVolume(progress / 100f, false);
-                mVolumeTV.setText("Volume " + progress + "%");
+                mVolumeTV.setText(getResources().getString(R.string.volume_title) + " " + progress + "%");
             }
 
             @Override
@@ -62,6 +62,6 @@ public class SettingsActivity extends FragmentContainerActivity {
             }
         });
 
-        mVolumeTV.setText("Volume " + Math.round(mMainFragment.getVolume() * 100) + "%");
+        mVolumeTV.setText(getResources().getString(R.string.volume_title) + " " + Math.round(mMainFragment.getVolume() * 100) + "%");
     }
 }

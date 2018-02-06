@@ -28,4 +28,22 @@
     <string name="never">A long time ago in a galaxy far, far away...</string>
 
     <string name="settings_volume">Volume</string>
+    <string name="history_cleaned">History was cleaned</string>
+    <string name="volume_title">Volume</string>
+
+    <string name="plug_pref">Plug/Unplug reaction</string>
+    <string name="plug_pref_sum">Player will stop when you plug or unplug headset</string>
+
+    <string name="enable_notif">Enable notification controller</string>
+    <string name="enable_notif_sum">Show notification with music-controll buttons</string>
+
+    <string name="clear_history">Clear history</string>
+    <string name="clear_history_sum">Clear all information about listened tracks</string>
+
+    <string name="reverse_sl">Reverse smart-list</string>
+    <string name="reverse_sl_sum">Smart-list shows less used tracks</string>
+
+    <string name="data">Data</string>
+    <string name="system">System</string>
+
 </resources>

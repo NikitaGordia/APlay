@@ -26,4 +26,23 @@
     <string name="day_1">Вчора</string>
     <string name="day_2">Два дні назад</string>
     <string name="never">A long time ago in a galaxy far, far away...</string>
+
+    <string name="settings_volume">Звук</string>
+    <string name="history_cleaned">Історія очищена</string>
+    <string name="volume_title">Звук</string>
+
+    <string name="plug_pref">Реакція на навушники</string>
+    <string name="plug_pref_sum">Музика зупиняється при підключенні/відключенні навушників</string>
+
+    <string name="enable_notif">Увімкнути повідомлення-котролер</string>
+    <string name="enable_notif_sum">Показати повідомлення з кнопками управлінням плеєром</string>
+
+    <string name="clear_history">Очистити історію</string>
+    <string name="clear_history_sum">Очистити інформацію по прослуховуванні пісень</string>
+
+    <string name="reverse_sl">Обернений smart вибір</string>
+    <string name="reverse_sl_sum">Smart вибір відображаю з початку найменш прослухані пісні</string>
+
+    <string name="data">Дані</string>
+    <string name="system">Система</string>
 </resources>

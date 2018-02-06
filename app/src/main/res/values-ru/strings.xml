@@ -26,4 +26,23 @@
     <string name="day_1">Вчера</string>
     <string name="day_2">Два дня назад</string>
     <string name="never">A long time ago in a galaxy far, far away...</string>
+
+    <string name="settings_volume">Звук</string>
+    <string name="history_cleaned">История очищена</string>
+    <string name="volume_title">Звук</string>
+
+    <string name="plug_pref">Реакция на наушники</string>
+    <string name="plug_pref_sum">Плеер остановится при подключении или отключении гарнитуры</string>
+
+    <string name="enable_notif">Включить уведомление-контроллер</string>
+    <string name="enable_notif_sum">Показать уведомление с кнопками управления плеером</string>
+
+    <string name="clear_history">Отчистить историю</string>
+    <string name="clear_history_sum">Очистить информацию о прослушивании треков</string>
+
+    <string name="reverse_sl">Обратный smart выбор</string>
+    <string name="reverse_sl_sum">Smart выбор отображает с начала менее используемые треки</string>
+
+    <string name="data">Данные</string>
+    <string name="system">Система</string>
 </resources>
