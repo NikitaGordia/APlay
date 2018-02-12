@@ -27,6 +27,12 @@ public class AudioTrack {
         mCount = 0;
     }
 
+    public AudioTrack(String url, int count, long date) {
+        mUrl = url;
+        mCount = count;
+        mDate = date;
+    }
+
     public static AudioTrack createEmptyTrack() {
         AudioTrack track = new AudioTrack();
         track.setDate(-1);

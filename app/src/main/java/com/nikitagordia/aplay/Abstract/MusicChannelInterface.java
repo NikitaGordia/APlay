@@ -8,7 +8,7 @@ import com.nikitagordia.aplay.Models.AudioTrack;
 
 public interface MusicChannelInterface {
 
-    AudioTrack nextSong();
-
     AudioTrack prevSong();
+
+    AudioTrack nextSong();
 }

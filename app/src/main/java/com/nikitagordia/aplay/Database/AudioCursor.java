@@ -16,10 +16,8 @@ public class AudioCursor extends CursorWrapper {
     }
 
     public AudioTrack getAudio() {
-        AudioTrack result = new AudioTrack();
-        result.setUrl(getString(getColumnIndex(AudioDBShema.AudioInfoTable.Columns.URL)));
-        result.setCount(getInt(getColumnIndex(AudioDBShema.AudioInfoTable.Columns.COUNT)));
-        result.setDate(getLong(getColumnIndex(AudioDBShema.AudioInfoTable.Columns.DATE)));
-        return result;
+        return new AudioTrack(getString(getColumnIndex(AudioDBShema.AudioInfoTable.Columns.URL)),
+                getInt(getColumnIndex(AudioDBShema.AudioInfoTable.Columns.COUNT)),
+                getLong(getColumnIndex(AudioDBShema.AudioInfoTable.Columns.DATE)));
     }
 }

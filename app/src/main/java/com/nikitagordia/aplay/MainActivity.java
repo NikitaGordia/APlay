@@ -52,6 +52,3 @@ public class MainActivity extends FragmentContainerActivity implements OnClickIt
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(HeadManager.NOTIFICATION_HEAD_ID);
     }
 }
-
-//TODO Optimization reverse URL
-//TODO update song list preferences button

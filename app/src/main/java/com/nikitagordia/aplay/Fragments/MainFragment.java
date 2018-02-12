@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nikitagordia.aplay.Abstract.ListableFragment;
-import com.nikitagordia.aplay.MainActivity;
-import com.nikitagordia.aplay.Managers.DBManager;
 import com.nikitagordia.aplay.Managers.HeadManager;
 import com.nikitagordia.aplay.Managers.MyPreferencesManager;
 import com.nikitagordia.aplay.Managers.PagerAdapter;
@@ -83,7 +80,7 @@ public class MainFragment extends Fragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_main, container, false);
+        View view = inflater.inflate(R.layout.main_fragment, container, false);
 
         mTrackName = (TextView) view.findViewById(R.id.tv_current_audio_track);
         mTime = (TextView) view.findViewById(R.id.tv_current_time);
