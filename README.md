@@ -6,6 +6,7 @@
 	<h4 align="center">Music player for android</h4>
 </p>
 
+<p align="center"><img src="github/set.png"/></p>
 <p align="center"><img src="github/first_set.png"/></p>
 <p align="center"><img src="github/second_set.png"/></p>
 
