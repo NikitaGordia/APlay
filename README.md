@@ -1,30 +1,26 @@
-# APlay
-Music Player for Android
+<p align="center">
+	<p align="center">
+		<img src="github/burn.png" width="150"/>
+	</p>
+	<h2 align="center"><b>APlay</b></h2>
+	<h4 align="center">Music player for android</h4>
+</p>
 
-Main screen :
+<p align="center"><img src="github/first_set.png"/></p>
+<p align="center"><img src="github/second_set.png"/></p>
 
-<img src="Screenshots/1.png" width="30%" height="30%"/>
+## Description
 
-Music box:
+* Lightweight app
+* Fresh downloaded songs always on top
+* Sorting by popularity, recent played
+* Quick search by duration, title, artist name, album name
+* Plug/Unplug reaction on headphones
+* Notification music-cotroller
 
-<img src="Screenshots/2.png" width="30%" height="30%"/>
 
-Menu items :
-
-<img src="Screenshots/3.png" width="30%" height="30%"/>
-
-Notification controller :
-
-<img src="Screenshots/4.png" width="30%" height="30%"/> 
-
-Search :
-
-<img src="Screenshots/5.png" width="30%" height="30%"/> 
-
-Setting :
-
-<img src="Screenshots/6.png" width="30%" height="30%"/> 
-
-Screen mode :
-
-<img src="Screenshots/7.png" width="30%" height="30%"/> 
+<p align="center">
+	<img src="github/1.gif" width="200" height="355"  />
+	<img src="github/2.gif" width="200" height="355" />
+	<img src="github/3.gif" width="200" height="355" />
+</p>
