@@ -93,17 +93,13 @@ public class SmartListFragment extends ListableFragment {
         List<AudioTrack> list = new ArrayList<>();
         list.addAll(MusicManager.get().getAudioTracks());
 
-        Collections.sort(list, MyPreferencesManager.getRSL(getContext()) ? new Comparator<AudioTrack>() {
+        Collections.sort(list, new Comparator<AudioTrack>() {
             @Override
             public int compare(AudioTrack o1, AudioTrack o2) {
                 return (int)(o2.getDate() - o1.getDate());
             }
-        } : new Comparator<AudioTrack>() {
-                    @Override
-                    public int compare(AudioTrack o1, AudioTrack o2) {
-                        return (int)(o1.getDate() - o2.getDate());
-                    }
         });
+        if (MyPreferencesManager.getRSL(getContext())) Collections.reverse(list);
 
         mAudioAdapter.updateList(list);
     }
